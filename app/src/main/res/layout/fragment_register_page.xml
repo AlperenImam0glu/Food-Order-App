@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_background"
-    tools:context=".ui.fragment.RegisterPageFragment">
+    tools:context=".ui.fragment.SignupPageFragment">
 
     <TextView
-        android:id="@+id/login_here"
+        android:id="@+id/texrViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,11 +24,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/welcome_bac"
+        android:id="@+id/texrViewSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_horizontal|top"
         android:text="Create a new account for delicious \nand fast meals"
         android:textColor="@color/black"
@@ -37,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_here" />
+        app:layout_constraintTop_toBottomOf="@+id/texrViewTitle" />
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -52,7 +54,7 @@
         android:queryHint="Ara"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_bac" />
+        app:layout_constraintTop_toBottomOf="@+id/texrViewSubTitle" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -90,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginHorizontal="40dp"
@@ -104,14 +106,14 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextConfrimPassword" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewRegiter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Already have an account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

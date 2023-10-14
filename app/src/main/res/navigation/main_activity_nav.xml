@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_nav"
+    app:startDestination="@id/loginPageFragment">
+
+    <fragment
+        android:id="@+id/loginPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.LoginPageFragment"
+        android:label="fragment_login_page"
+        tools:layout="@layout/fragment_login_page" >
+        <action
+            android:id="@+id/navigate_to_registerPage"
+            app:destination="@id/registerPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.SignupPageFragment"
+        android:label="fragment_register_page"
+        tools:layout="@layout/fragment_register_page" />
+</navigation>

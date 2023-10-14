@@ -1,6 +1,7 @@
 package com.example.foodorderapp.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,55 +9,51 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entitiy.Resource
 import com.example.foodorderapp.databinding.FragmentLoginPageBinding
+import com.example.foodorderapp.databinding.FragmentRegisterPageBinding
 import com.example.foodorderapp.ui.viewmodel.LoginPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class LoginPageFragment : Fragment() {
+class SignupPageFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginPageBinding
     lateinit var viewModel: LoginPageViewModel
+    private lateinit var binding: FragmentRegisterPageBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoginPageBinding.inflate(layoutInflater)
+        binding = FragmentRegisterPageBinding.inflate(layoutInflater)
         val tempViewModel: LoginPageViewModel by viewModels()
         viewModel = tempViewModel
 
         collectFlow()
 
         binding.buttonLogin.setOnClickListener {
-            login()
+            signup()
         }
 
-        binding.textViewRegiter.setOnClickListener {
-            val action = LoginPageFragmentDirections.navigateToRegisterPage()
-            Navigation.findNavController(it).navigate(action)
-        }
 
         return binding.root
     }
 
-    fun login() {
+    fun signup() {
         val email = binding.editTextEmail.text.toString().trim()
+        val name = binding.editTextEmail.text.toString().trim()
         val password = binding.editTextPassword.text.toString().trim()
-        viewModel.login(email, password)
+        viewModel.signup(name,email, password)
     }
 
     fun collectFlow() {
         lifecycleScope.launchWhenStarted {
-            viewModel?.loginFlow?.collectLatest {
+            viewModel?.signupFlow?.collectLatest {
                 when (it) {
-
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "Başarısız", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Başarısız ${it.exception}", Toast.LENGTH_SHORT).show()
+                        Log.e("hata",it.exception.toString())
                     }
 
                     Resource.Loading -> {
@@ -74,4 +71,5 @@ class LoginPageFragment : Fragment() {
 
         }
     }
+
 }
