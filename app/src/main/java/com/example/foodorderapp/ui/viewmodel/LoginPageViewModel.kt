@@ -1,9 +1,8 @@
 package com.example.foodorderapp.ui.viewmodel
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foodorderapp.data.entitiy.Resource
+import com.example.foodorderapp.data.model.Resource
 import com.example.foodorderapp.data.repository.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,9 +37,9 @@ class LoginPageViewModel @Inject constructor(
         _loginFlow.value = result
     }
 
-    fun signup(name: String, email: String, password: String) = viewModelScope.launch {
+    fun signup(name: String, email: String, password: String,location:String) = viewModelScope.launch {
         _signupFlow.value = Resource.Loading
-        val result = repository.signup(name, email, password)
+        val result = repository.signup(name, email, password,location)
         _signupFlow.value = result
     }
 

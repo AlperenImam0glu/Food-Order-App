@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.foodorderapp.R
-import com.example.foodorderapp.data.entitiy.Resource
-import com.example.foodorderapp.databinding.FragmentLoginPageBinding
+import androidx.navigation.Navigation
+import com.example.foodorderapp.data.model.Resource
 import com.example.foodorderapp.databinding.FragmentRegisterPageBinding
 import com.example.foodorderapp.ui.viewmodel.LoginPageViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -42,9 +43,10 @@ class SignupPageFragment : Fragment() {
 
     fun signup() {
         val email = binding.editTextEmail.text.toString().trim()
-        val name = binding.editTextEmail.text.toString().trim()
+        val name = binding.editTextName.text.toString().trim()
         val password = binding.editTextPassword.text.toString().trim()
-        viewModel.signup(name,email, password)
+        val location = binding.editTextLocation.text.toString().trim()
+        viewModel.signup(name, email, password, location)
     }
 
     fun collectFlow() {
@@ -52,8 +54,12 @@ class SignupPageFragment : Fragment() {
             viewModel?.signupFlow?.collectLatest {
                 when (it) {
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "Başarısız ${it.exception}", Toast.LENGTH_SHORT).show()
-                        Log.e("hata",it.exception.toString())
+                        Toast.makeText(
+                            requireContext(),
+                            "Başarısız ${it.exception}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("hata", it.exception.toString())
                     }
 
                     Resource.Loading -> {
@@ -62,6 +68,8 @@ class SignupPageFragment : Fragment() {
 
                     is Resource.Success -> {
                         Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
+                        val action = LoginPageFragmentDirections.navigateToMainPageFragment()
+                        Navigation.findNavController(binding.buttonLogin).navigate(action)
                     }
 
                     else -> {}

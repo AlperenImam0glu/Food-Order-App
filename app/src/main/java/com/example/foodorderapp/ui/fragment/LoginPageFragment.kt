@@ -9,12 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.example.foodorderapp.R
-import com.example.foodorderapp.data.entitiy.Resource
+import com.example.foodorderapp.data.model.Resource
 import com.example.foodorderapp.databinding.FragmentLoginPageBinding
 import com.example.foodorderapp.ui.viewmodel.LoginPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
@@ -54,7 +52,6 @@ class LoginPageFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel?.loginFlow?.collectLatest {
                 when (it) {
-
                     is Resource.Failure -> {
                         Toast.makeText(requireContext(), "Başarısız", Toast.LENGTH_SHORT).show()
                     }
@@ -65,6 +62,8 @@ class LoginPageFragment : Fragment() {
 
                     is Resource.Success -> {
                         Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
+                        val action = LoginPageFragmentDirections.navigateToMainPageFragment()
+                        Navigation.findNavController(binding.buttonLogin).navigate(action)
                     }
 
                     else -> {}

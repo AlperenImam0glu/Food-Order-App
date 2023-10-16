@@ -1,4 +1,4 @@
-package com.example.foodorderapp.data.entitiy
+package com.example.foodorderapp.data.model
 
 import java.lang.Exception
 
@@ -6,7 +6,5 @@ sealed class Resource<out R> {
     data class Success<out R>(val result:R) :Resource<R>()
     data class Failure(val exception: Exception): Resource<Nothing>()
     object Loading : Resource<Nothing>()
-
-
 
 }

@@ -13,10 +13,18 @@
         <action
             android:id="@+id/navigate_to_registerPage"
             app:destination="@id/registerPageFragment" />
+        <action
+            android:id="@+id/navigate_to_mainPageFragment"
+            app:destination="@id/mainPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerPageFragment"
         android:name="com.example.foodorderapp.ui.fragment.SignupPageFragment"
         android:label="fragment_register_page"
         tools:layout="@layout/fragment_register_page" />
+    <fragment
+        android:id="@+id/mainPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.MainPageFragment"
+        android:label="fragment_main_page"
+        tools:layout="@layout/fragment_main_page" />
 </navigation>
