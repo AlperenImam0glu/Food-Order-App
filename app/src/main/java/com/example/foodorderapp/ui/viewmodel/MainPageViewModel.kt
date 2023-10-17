@@ -25,7 +25,7 @@ class MainPageViewModel @Inject constructor(
 
     private val _loginFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
     val loginFlow: StateFlow<Resource<FirebaseUser>?> = _loginFlow
-    val name = MutableStateFlow<String?>(null)
+    val userInfoFlow = MutableStateFlow<User?>(null)
     val db = FirebaseFirestore.getInstance()
 
     val productFlow =  MutableStateFlow<List<Yemekler>?>(null)
@@ -54,7 +54,8 @@ class MainPageViewModel @Inject constructor(
                             location = inputMap?.get("location").toString(),
                             email = inputMap?.get("email").toString()
                         )
-                        name.value = userData.name!!
+                        userInfoFlow.value = User(userData.name!!,userData.email!!,userData.location!!)
+
 
                     } else {
                         Log.d("gelen veri", "No such document")

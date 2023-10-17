@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
-        android:layout_height="370dp"
+        android:layout_height="350dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/latinka_regular"
-        android:text="5 Mins"
+        android:text="25 Dak."
         app:layout_constraintBottom_toBottomOf="@+id/textViewDistance"
         app:layout_constraintStart_toEndOf="@+id/textViewDistance"
         app:layout_constraintTop_toTopOf="@+id/textViewDistance" />
@@ -71,6 +71,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonMinus"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -85,6 +86,7 @@
                 app:strokeWidth="2dp" />
 
             <TextView
+                android:id="@+id/textViewCartCount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -96,6 +98,7 @@
                 android:textSize="20sp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonAdd"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
