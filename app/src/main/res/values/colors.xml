@@ -3,5 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="page_background">#F5F5F5</color>
+    <color name="custom_red">#F55A51</color>
+    <color name="custom_green">#81C74A</color>
+    <color name="image_background1">#f7ebd3</color>
+
+
 
 </resources>

@@ -15,7 +15,9 @@
             app:destination="@id/registerPageFragment" />
         <action
             android:id="@+id/navigate_to_mainPageFragment"
-            app:destination="@id/mainPageFragment" />
+            app:destination="@id/mainPageFragment"
+            app:popUpTo="@id/main_activity_nav"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerPageFragment"
@@ -26,5 +28,18 @@
         android:id="@+id/mainPageFragment"
         android:name="com.example.foodorderapp.ui.fragment.MainPageFragment"
         android:label="fragment_main_page"
-        tools:layout="@layout/fragment_main_page" />
+        tools:layout="@layout/fragment_main_page" >
+        <action
+            android:id="@+id/action_mainPageFragment_to_productDetailPageFragment"
+            app:destination="@id/productDetailPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.ProductDetailPageFragment"
+        android:label="fragment_product_detail_page"
+        tools:layout="@layout/fragment_product_detail_page" >
+        <argument
+            android:name="yemek"
+            app:argType="com.example.foodorderapp.data.model.product.Yemekler" />
+    </fragment>
 </navigation>
