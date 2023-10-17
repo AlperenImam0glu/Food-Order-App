@@ -6,5 +6,10 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="CustomBottomNavStyle" parent="Widget.Design.BottomNavigationView">
+        <!-- Customize the selected item icon color -->
+        <item name="itemIconTint">@color/custom_red</item>
+    </style>
+
     <style name="Theme.FoodOrderApp" parent="Base.Theme.FoodOrderApp" />
 </resources>

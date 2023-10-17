@@ -42,4 +42,19 @@
             android:name="yemek"
             app:argType="com.example.foodorderapp.data.model.product.Yemekler" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.FavoritesPageFragment"
+        android:label="fragment_favorites_page"
+        tools:layout="@layout/fragment_favorites_page" />
+    <fragment
+        android:id="@+id/orderPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.OrderPageFragment"
+        android:label="fragment_order_page"
+        tools:layout="@layout/fragment_order_page" />
+    <fragment
+        android:id="@+id/accountPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.AccountPageFragment"
+        android:label="fragment_account_page"
+        tools:layout="@layout/fragment_account_page" />
 </navigation>

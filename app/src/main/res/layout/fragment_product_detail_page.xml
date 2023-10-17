@@ -60,6 +60,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="24dp"
         app:cardCornerRadius="5dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewProductName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewProductName">
@@ -110,4 +111,19 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/latinka_regular"
+        android:justificationMode="inter_word"
+        android:text="Akşam yemeği zevkini evinizin rahatlığında yaşayın! Sepete ekleyin ve kısa sürede kapınıza teslim edelim. Bu özel ürün ile size ve sevdiklerinize özel bir yemek deneyimi sunuyoruz."
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProductName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
