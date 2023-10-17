@@ -1,7 +1,6 @@
 package com.example.foodorderapp.ui.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodorderapp.data.model.Resource
@@ -20,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainPageViewModel @Inject constructor(
+class ProductPageViewModel @Inject constructor(
     private val repository: AuthRepository, private val productRepository: ProductRepository
 ) : ViewModel() {
 
@@ -28,7 +27,7 @@ class MainPageViewModel @Inject constructor(
     val loginFlow: StateFlow<Resource<FirebaseUser>?> = _loginFlow
     val userInfoFlow = MutableStateFlow<User?>(null)
     val db = FirebaseFirestore.getInstance()
-    var productLiveData = MutableLiveData<List<Yemekler>?>()
+
     val productFlow =  MutableStateFlow<List<Yemekler>?>(null)
 
 
@@ -39,10 +38,7 @@ class MainPageViewModel @Inject constructor(
         if(repository.currentUser !=null){
             _loginFlow.value = Resource.Success(repository.currentUser!!)
         }
-        getAllProduct()
     }
-
-
 
     fun getData(){
 
@@ -76,17 +72,12 @@ class MainPageViewModel @Inject constructor(
     fun getAllProduct() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                var k = productRepository.getAllProducts()
-                for (i in 0 .. k.size-1){
-                    k[i].yemek_siparis_adet = (0..10).random()
-                }
-                productFlow.value = k
+                productFlow.value = productRepository.getAllProducts()
             } catch (e: Exception) {
-                    Log.e("hata",e.toString())
+                Log.e("hata",e.toString())
             }
         }
     }
-
 
 
 }

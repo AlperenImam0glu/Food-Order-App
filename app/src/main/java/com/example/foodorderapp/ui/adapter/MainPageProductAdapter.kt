@@ -11,7 +11,7 @@ import com.example.foodorderapp.ui.fragment.MainPageFragmentDirections
 import com.example.foodorderapp.ui.viewmodel.MainPageViewModel
 import com.example.foodorderapp.utils.loadImage
 
-class MainPageProductAdapter(val productList: List<Yemekler>, val viewModel: MainPageViewModel) :
+class MainPageProductAdapter(var productList: List<Yemekler>, val viewModel: MainPageViewModel) :
     RecyclerView.Adapter<MainPageProductAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: MainpageProductItemBinding) :
@@ -25,31 +25,40 @@ class MainPageProductAdapter(val productList: List<Yemekler>, val viewModel: Mai
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val binding = holder.binding
-        val food = productList[position]
+        var food = productList[position]
+
         binding.textViewFoodName.text = food.yemek_adi
         binding.textViewFoodPrice.text = "${food.yemek_fiyat} ₺"
         food.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
         binding.textViewCartCount.text = food.yemek_siparis_adet.toString()
 
         binding.cardView.setOnClickListener {
-            val action =
-                MainPageFragmentDirections.actionMainPageFragmentToProductDetailPageFragment(food)
-            Navigation.findNavController(it).navigate(action)
+            food?.let { food ->
+                val action =
+                    MainPageFragmentDirections.actionMainPageFragmentToProductDetailPageFragment(
+                        food
+                    )
+                Navigation.findNavController(it).navigate(action)
+            }
         }
 
         binding.buttonAdd.setOnClickListener {
-              // food.sepet_adet = food.sepet_adet + 1
-             //  binding.textViewCartCount.text = food.sepet_adet.toString()
+            val count = binding.textViewCartCount.text.toString().toInt() + 1
+            binding.textViewCartCount.text = "$count"
         }
+
 
         binding.buttonNimus.setOnClickListener {
 
+            if (binding.textViewCartCount.text.toString().toInt() > 0) {
+                val count = binding.textViewCartCount.text.toString().toInt() - 1
+                binding.textViewCartCount.text = "$count"
+            }
         }
 
     }
 
     override fun getItemCount(): Int {
-        Log.e("hata",productList.size.toString())
         return productList.size
     }
 

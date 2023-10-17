@@ -23,30 +23,30 @@ class ProductDetailPageFragment : Fragment() {
 
 
         val bundle: ProductDetailPageFragmentArgs by navArgs()
-        val yemek = Yemekler(bundle.yemek.yemek_adi,bundle.yemek.yemek_fiyat,bundle.yemek.yemek_id,bundle.yemek.yemek_resim_adi)
-
+        val yemek = bundle.yemek
+        binding.textViewCartCount.text = yemek.yemek_siparis_adet.toString()
 
 
         binding.textViewProductName.text = yemek.yemek_adi
+
         yemek.yemek_resim_adi?.let { binding.imageView.loadImage(it) }
 
 
         binding.buttonAdd.setOnClickListener {
-            yemek.yemek_siparis_adet = yemek.yemek_siparis_adet + 1
-            binding.textViewCartCount.text = yemek.yemek_siparis_adet.toString()
+            var count = binding.textViewCartCount.text.toString().toInt()+1
+            binding.textViewCartCount.text = "$count"
 
         }
 
-        binding.buttonMinus.setOnClickListener {
-            if(yemek.yemek_siparis_adet>0){
-                yemek.yemek_siparis_adet = yemek.yemek_siparis_adet - 1
-                binding.textViewCartCount.text = yemek.yemek_siparis_adet.toString()
+          binding.buttonMinus.setOnClickListener {
+            if ( binding.textViewCartCount.text.toString().toInt() > 0) {
+                var count = binding.textViewCartCount.text.toString().toInt()-1
+                binding.textViewCartCount.text = "$count"
             }
         }
 
         return binding.root
 
     }
-
 
 }
