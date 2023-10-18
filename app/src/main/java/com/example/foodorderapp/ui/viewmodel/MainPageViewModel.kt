@@ -76,11 +76,7 @@ class MainPageViewModel @Inject constructor(
     fun getAllProduct() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                var k = productRepository.getAllProducts()
-                for (i in 0 .. k.size-1){
-                    k[i].yemek_siparis_adet = (0..10).random()
-                }
-                productFlow.value = k
+                productFlow.value = productRepository.getAllProducts()
             } catch (e: Exception) {
                     Log.e("hata",e.toString())
             }

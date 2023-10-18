@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class MainPageFragment : Fragment() {
 
-
     private lateinit var binding: FragmentMainPageBinding
     private lateinit var viewModel: MainPageViewModel
 
