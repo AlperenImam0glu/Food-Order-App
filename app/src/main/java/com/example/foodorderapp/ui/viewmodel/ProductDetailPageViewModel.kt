@@ -11,13 +11,11 @@ import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductPageViewModel @Inject constructor(
+class ProductDetailPageViewModel @Inject constructor(
     private val repository: AuthRepository, private val productRepository: ProductRepository
 ) : ViewModel() {
 
@@ -26,10 +24,15 @@ class ProductPageViewModel @Inject constructor(
     val currentUser: FirebaseUser?
         get() = repository.currentUser
 
+    init {
+        getProductInCart()
+    }
 
-    fun addProductToCart(product: Yemekler) {
+
+    fun addProductToCart( product: Yemekler) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
+               product.yemek_siparis_adet=1
                 val responce = productRepository.addProductToCart(product, "alperen_deneme")
                 Log.e(
                     "gelen cevap",

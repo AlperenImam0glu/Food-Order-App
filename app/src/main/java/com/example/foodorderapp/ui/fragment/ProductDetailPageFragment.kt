@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.foodorderapp.data.model.cart.Cart
-import com.example.foodorderapp.data.model.cart.CartResponce
 import com.example.foodorderapp.databinding.FragmentProductDetailPageBinding
-import com.example.foodorderapp.ui.viewmodel.ProductPageViewModel
+import com.example.foodorderapp.ui.viewmodel.ProductDetailPageViewModel
 import com.example.foodorderapp.utils.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,13 +19,13 @@ class ProductDetailPageFragment : Fragment() {
 
 
     private lateinit var binding: FragmentProductDetailPageBinding
-    private lateinit var viewModel: ProductPageViewModel
+    private lateinit var viewModel: ProductDetailPageViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProductDetailPageBinding.inflate(layoutInflater)
-        val tempViewModel: ProductPageViewModel by viewModels()
+        val tempViewModel: ProductDetailPageViewModel by viewModels()
         viewModel = tempViewModel
 
         var list = emptyList<Cart>()
