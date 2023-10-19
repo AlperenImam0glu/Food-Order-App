@@ -37,6 +37,7 @@ class MainPageViewModel @Inject constructor(
     var productLiveData = MutableLiveData<List<Yemekler>?>()
     val productListFlow = MutableStateFlow<List<Yemekler>?>(null)
     val cartListFlow = MutableStateFlow<CartResponce?>(null)
+    val privateCartListFlow = MutableStateFlow<CartResponce?>(null)
     val progressFlow = MutableLiveData<Boolean>(false)
 
     val combineFlow = productListFlow.combine(cartListFlow) { flow1Value, flow2Value ->
@@ -103,18 +104,18 @@ class MainPageViewModel @Inject constructor(
             "viewmodel",
             "1 sepete ekleme ürün verisi : ${product.yemek_adi} ${product.yemek_siparis_adet}"
         )
-        getProductsInCart()
+        getProductsInCartprivate()
         Log.e(
             "viewmodel",
             "2 getProductsInCart'dan sonra çalıştı"
         )
         var list = mutableListOf<Cart>()
 
-        if (cartListFlow.value == null) {
+        if (privateCartListFlow.value == null) {
             addNewItemCart(product)
         } else {
             var include = false
-            cartListFlow.value?.let {
+            privateCartListFlow.value?.let {
                 list = it.sepet_yemekler as MutableList<Cart>
             }
             Log.e("viewmodel", "3 liste elemanları ${list}")
@@ -149,9 +150,7 @@ class MainPageViewModel @Inject constructor(
 
                 Log.e("viewmodel", "6 dp sepet temizlendi")
                 addNewListInCart(list)
-
             }
-
         }
 
         Log.e("viewmodel", "8 dp liste yüklendi")
@@ -232,10 +231,28 @@ class MainPageViewModel @Inject constructor(
         return productObject
     }
 
-    fun getProductsInCart() {
-
+    fun getProductsInCartprivate() {
 
         runBlocking {
+            try {
+                val responce = productRepository.getProductInCart("alperen_deneme")
+                privateCartListFlow.value = responce
+                Log.e(
+                    "viewmodel sepet verileri",
+                    "sepet verileri alma responce : ${responce.success}"
+                )
+            } catch (e: Exception) {
+                Log.e("viewmodel sepet verileri hata", "sepet verileri alma hata: ${e.message}")
+            }
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+
+        }
+    }
+
+    fun getProductsInCart() {
+
+        CoroutineScope(Dispatchers.Main).launch {
             try {
                 val responce = productRepository.getProductInCart("alperen_deneme")
                 cartListFlow.value = responce

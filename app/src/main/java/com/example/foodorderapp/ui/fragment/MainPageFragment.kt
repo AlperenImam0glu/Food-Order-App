@@ -43,6 +43,7 @@ class MainPageFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             viewModel.combineFlow.collectLatest {
+                Log.e("viewmodel","COMBINE TETİKLENDİ")
                 mergeData(mainPageProductAdapter)
             }
         }
