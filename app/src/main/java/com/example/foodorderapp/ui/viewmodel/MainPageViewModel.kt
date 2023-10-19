@@ -1,7 +1,7 @@
 package com.example.foodorderapp.ui.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -82,6 +81,17 @@ class MainPageViewModel @Inject constructor(
 
     }
 
+    fun deleteOneProductInCartWithId(yemek_sepet_id: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val responce = productRepository.deleteProductInCart(yemek_sepet_id, "alperen_deneme")
+                Log.e("deleteOneProductInCart", "${responce.success}")
+            } catch (e: Exception) {
+                Log.e("deleteOneProductInCart", e.toString())
+            }
+        }
+    }
+
 
     fun getAllProduct() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -100,15 +110,9 @@ class MainPageViewModel @Inject constructor(
 
 
     fun addProductToCart(product: Yemekler) {
-        Log.e(
-            "viewmodel",
-            "1 sepete ekleme ürün verisi : ${product.yemek_adi} ${product.yemek_siparis_adet}"
-        )
+
         getProductsInCartprivate()
-        Log.e(
-            "viewmodel",
-            "2 getProductsInCart'dan sonra çalıştı"
-        )
+
         var list = mutableListOf<Cart>()
 
         if (privateCartListFlow.value == null) {
@@ -118,8 +122,6 @@ class MainPageViewModel @Inject constructor(
             privateCartListFlow.value?.let {
                 list = it.sepet_yemekler as MutableList<Cart>
             }
-            Log.e("viewmodel", "3 liste elemanları ${list}")
-
             list?.let {
                 for (i in 0..list.size - 1) {
                     if (list[i].yemek_adi == product.yemek_adi) {
@@ -129,15 +131,10 @@ class MainPageViewModel @Inject constructor(
                 }
             }
             if (include) {
-                Log.e("viewmodel", "4 liste güncellendi ${list}")
                 deleteListInCart(list)
-
-                Log.e("viewmodel", "6 dp sepet temizlendi")
                 addNewListInCart(list)
             } else {
-                Log.e("viewmodel", "4 liste güncellendi ${list}")
                 deleteListInCart(list)
-
                 val cartObject = Cart(
                     0,
                     product.yemek_adi!!,
@@ -147,13 +144,28 @@ class MainPageViewModel @Inject constructor(
                     ""
                 )
                 list.add(cartObject)
-
-                Log.e("viewmodel", "6 dp sepet temizlendi")
                 addNewListInCart(list)
             }
         }
+    }
 
-        Log.e("viewmodel", "8 dp liste yüklendi")
+
+    fun deleteOneProdutInCart(product: Yemekler) {
+        getProductsInCartprivate()
+        var list = mutableListOf<Cart>()
+
+            privateCartListFlow.value?.let {
+                list = it.sepet_yemekler as MutableList<Cart>
+            }
+            list?.let {
+                for (i in 0..list.size - 1) {
+                    if (list[i].yemek_adi == product.yemek_adi) {
+                        deleteOneProductInCartWithId(list[i].sepet_yemek_id)
+                        break
+                    }
+                }
+            }
+
     }
 
     fun deleteListInCart(list: List<Cart>) {

@@ -1,17 +1,25 @@
 package com.example.foodorderapp.ui.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodorderapp.R
 import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.databinding.MainpageProductItemBinding
 import com.example.foodorderapp.ui.fragment.MainPageFragmentDirections
 import com.example.foodorderapp.ui.viewmodel.MainPageViewModel
 import com.example.foodorderapp.utils.loadImage
 
-class MainPageProductAdapter(var productList: List<Yemekler>, val viewModel: MainPageViewModel) :
+class MainPageProductAdapter(
+    var productList: List<Yemekler>,
+    val viewModel: MainPageViewModel,
+    val mContext: Context
+) :
     RecyclerView.Adapter<MainPageProductAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: MainpageProductItemBinding) :
@@ -29,7 +37,13 @@ class MainPageProductAdapter(var productList: List<Yemekler>, val viewModel: Mai
 
         binding.textViewFoodName.text = food.yemek_adi
         binding.textViewFoodPrice.text = "${food.yemek_fiyat} ₺"
+
+
         food.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
+
+        if (food.yemek_siparis_adet != 0) {
+            binding.buttonSepeteEkle.text = "Güncelle"
+        }
         binding.textViewCartCount.text = food.yemek_siparis_adet.toString()
 
         binding.cardView.setOnClickListener {
@@ -49,8 +63,20 @@ class MainPageProductAdapter(var productList: List<Yemekler>, val viewModel: Mai
 
         binding.buttonSepeteEkle.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt()
-            food.yemek_siparis_adet=count
-            viewModel.addProductToCart(food)
+
+            if (count != 0) {
+                food.yemek_siparis_adet = count
+                viewModel.addProductToCart(food)
+                binding.buttonSepeteEkle.text = "Güncelle"
+                Toast.makeText(mContext, "Sepete Eklendi", Toast.LENGTH_SHORT).show()
+            } else if (count == 0 && binding.buttonSepeteEkle.text == "Güncelle") {
+                viewModel.deleteOneProdutInCart(food)
+                binding.buttonSepeteEkle.text = "Ekle"
+                Toast.makeText(mContext, "Sepet Güncellendi", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(mContext, "Miktar Seçiniz", Toast.LENGTH_SHORT).show()
+            }
+
 
         }
 
@@ -59,8 +85,10 @@ class MainPageProductAdapter(var productList: List<Yemekler>, val viewModel: Mai
             if (binding.textViewCartCount.text.toString().toInt() > 0) {
                 val count = binding.textViewCartCount.text.toString().toInt() - 1
                 binding.textViewCartCount.text = "$count"
-
+            } else {
+                Toast.makeText(mContext, "Miktar daha fazla azalamaz", Toast.LENGTH_SHORT).show()
             }
+
         }
 
     }

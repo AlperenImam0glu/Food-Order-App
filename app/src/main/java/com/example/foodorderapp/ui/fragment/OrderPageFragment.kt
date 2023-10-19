@@ -28,6 +28,10 @@ class OrderPageFragment : Fragment() {
         val tempViewModel: OrderPageViewModel by viewModels()
         viewModel = tempViewModel
 
+        binding.emptyCartLayout.visibility = View.VISIBLE
+        binding.buttonClearCart.visibility = View.INVISIBLE
+        binding.cardViewOrder.visibility = View.INVISIBLE
+
         val mainPageProductAdapter = OrderPageProductAdapter(emptyList(), viewModel)
         binding.rv.adapter = mainPageProductAdapter
 
@@ -36,11 +40,23 @@ class OrderPageFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.cartListFlow.collectLatest { products ->
                 products?.let {
+                    if(it.sepet_yemekler.size !=0){
+                        binding.emptyCartLayout.visibility = View.GONE
+                        binding.buttonClearCart.visibility = View.VISIBLE
+                        binding.cardViewOrder.visibility = View.VISIBLE
+                    }
                     mainPageProductAdapter.productList= it.sepet_yemekler!!
                     val cartTotalPrice =viewModel.calculateCartTotalPrice(it.sepet_yemekler)
                     binding.textViewTotalPrice.text="$cartTotalPrice ₺"
                     mainPageProductAdapter.notifyDataSetChanged()
                 }
+
+                products?.let{
+                    if(it.sepet_yemekler.size ==0){
+                        binding.emptyCartLayout.visibility = View.VISIBLE
+                    }
+                }
+
             }
         }
         binding.rv.adapter = mainPageProductAdapter
@@ -49,6 +65,9 @@ class OrderPageFragment : Fragment() {
             viewModel.deleteAllProductInCart()
             mainPageProductAdapter.notifyDataSetChanged()
             mainPageProductAdapter.productList= ArrayList<Cart>()
+            binding.emptyCartLayout.visibility = View.VISIBLE
+            binding.buttonClearCart.visibility = View.INVISIBLE
+            binding.cardViewOrder.visibility = View.INVISIBLE
             binding.rv.adapter = mainPageProductAdapter
             binding.textViewTotalPrice.text=""
         }

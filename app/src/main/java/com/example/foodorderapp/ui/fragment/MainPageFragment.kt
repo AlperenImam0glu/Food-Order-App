@@ -38,7 +38,7 @@ class MainPageFragment : Fragment() {
         binding.rv.addItemDecoration(
             MarginItemDecoration(16)
         )
-        val mainPageProductAdapter = MainPageProductAdapter(emptyList(), viewModel)
+        val mainPageProductAdapter = MainPageProductAdapter(emptyList(), viewModel,requireContext())
         binding.rv.adapter = mainPageProductAdapter
 
         lifecycleScope.launchWhenCreated {

@@ -11,5 +11,7 @@
         <item name="itemIconTint">@color/custom_red</item>
     </style>
 
+
+
     <style name="Theme.FoodOrderApp" parent="Base.Theme.FoodOrderApp" />
 </resources>
