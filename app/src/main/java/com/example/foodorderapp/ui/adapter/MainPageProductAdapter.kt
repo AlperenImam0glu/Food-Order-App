@@ -47,12 +47,19 @@ class MainPageProductAdapter(var productList: List<Yemekler>, val viewModel: Mai
             binding.textViewCartCount.text = "$count"
         }
 
+        binding.buttonSepeteEkle.setOnClickListener {
+            val count = binding.textViewCartCount.text.toString().toInt()
+            food.yemek_siparis_adet=count
+            viewModel.addProductToCart(food)
+
+        }
+
 
         binding.buttonNimus.setOnClickListener {
-
             if (binding.textViewCartCount.text.toString().toInt() > 0) {
                 val count = binding.textViewCartCount.text.toString().toInt() - 1
                 binding.textViewCartCount.text = "$count"
+
             }
         }
 

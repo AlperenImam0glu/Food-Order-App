@@ -36,7 +36,7 @@ class OrderPageFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.cartListFlow.collectLatest { products ->
                 products?.let {
-                    mainPageProductAdapter.productList=it.sepet_yemekler
+                    mainPageProductAdapter.productList= it.sepet_yemekler!!
                     val cartTotalPrice =viewModel.calculateCartTotalPrice(it.sepet_yemekler)
                     binding.textViewTotalPrice.text="$cartTotalPrice ₺"
                     mainPageProductAdapter.notifyDataSetChanged()

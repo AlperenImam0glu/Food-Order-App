@@ -46,7 +46,7 @@ class ProductDetailPageFragment : Fragment() {
         }
 
         viewModel.cartListLiveData.observe(viewLifecycleOwner) {
-            list = it.sepet_yemekler
+            list = it.sepet_yemekler!!
             Log.e("gelen cevaplar", "liste geldi")
         }
 

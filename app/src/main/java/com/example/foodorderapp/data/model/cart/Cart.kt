@@ -5,7 +5,7 @@ data class Cart(
     val yemek_adi: String,
     val yemek_resim_adi: String,
     val yemek_fiyat: String,
-    val yemek_siparis_adet: Int,
+    var yemek_siparis_adet: Int,
     val kullanici_adi: String
 )
 

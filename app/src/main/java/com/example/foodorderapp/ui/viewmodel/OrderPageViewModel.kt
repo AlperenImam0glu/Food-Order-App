@@ -75,7 +75,7 @@ class OrderPageViewModel @Inject constructor(
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 cartListFlow.value?.let {
-                    for (i in it.sepet_yemekler) {
+                    for (i in it.sepet_yemekler!!) {
                         val responce = productRepository.deleteProductInCart(
                             i.sepet_yemek_id,
                             "alperen_deneme"
