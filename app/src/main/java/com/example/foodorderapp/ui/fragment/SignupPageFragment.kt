@@ -33,6 +33,7 @@ class SignupPageFragment : Fragment() {
         val tempViewModel: LoginPageViewModel by viewModels()
         viewModel = tempViewModel
 
+        Log.e("deneme","onCreateView çalıştı")
         collectFlow()
 
         binding.buttonLogin.setOnClickListener {

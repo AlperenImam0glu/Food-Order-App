@@ -43,7 +43,12 @@ class LoginPageFragment : Fragment() {
         collectFlow()
 
         binding.buttonLogin.setOnClickListener {
-            login()
+            try{
+
+                login()
+            }catch (e:Exception){
+                Log.e("loginviewmodel","${e.message}")
+            }
         }
 
         binding.textViewSingup.setOnClickListener {
@@ -63,24 +68,23 @@ class LoginPageFragment : Fragment() {
     fun collectFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel?.loginFlow?.collectLatest {
-                when (it) {
-                    is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "Başarısız", Toast.LENGTH_SHORT).show()
+                try{
+                    when (it) {
+                        is Resource.Failure -> {
+                            Toast.makeText(requireContext(), "Başarısız", Toast.LENGTH_SHORT).show()
+                        }
+                        Resource.Loading -> {
+                            Toast.makeText(requireContext(), "Bekleniyor", Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Success -> {
+                            val action = LoginPageFragmentDirections.navigateToMainPageFragment()
+                            Navigation.findNavController(binding.texrViewTitle).navigate(action)
+                            navBar.visibility = View.VISIBLE
+                        }
+                        else -> {}
                     }
-
-                    Resource.Loading -> {
-                        Log.e("login işlemi", "çalıştı")
-                        Toast.makeText(requireContext(), "Bekleniyor", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is Resource.Success -> {
-                        val action = LoginPageFragmentDirections.navigateToMainPageFragment()
-                        Navigation.findNavController(binding.texrViewTitle).navigate(action)
-                        //navBar.visibility= View.VISIBLE
-
-                    }
-
-                    else -> {}
+                }catch (e:Exception){
+                    Log.e("loginviewmodel","${e.message}")
                 }
             }
 
@@ -91,13 +95,19 @@ class LoginPageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if(viewModel.currentUser !=null){
-            Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
             val action = LoginPageFragmentDirections.navigateToMainPageFragment()
             Navigation.findNavController(binding.buttonLogin).navigate(action)
             navBar.visibility= View.VISIBLE
         }else{
            viewModel.resetFlows()
         }
-
     }
+
+    override fun onPause() {
+        super.onPause()
+        val tempViewModel: LoginPageViewModel by viewModels()
+        viewModel = tempViewModel
+    }
+
+
 }

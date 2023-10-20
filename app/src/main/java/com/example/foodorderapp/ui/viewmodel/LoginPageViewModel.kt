@@ -1,5 +1,6 @@
 package com.example.foodorderapp.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodorderapp.data.model.Resource
@@ -25,6 +26,7 @@ class LoginPageViewModel @Inject constructor(
         get() = repository.currentUser
 
     init {
+        Log.e("loginviewmodel","init çalıştı")
         if(repository.currentUser !=null){
             _loginFlow.value = Resource.Success(repository.currentUser!!)
         }else{
@@ -42,12 +44,14 @@ class LoginPageViewModel @Inject constructor(
         _loginFlow.value = Resource.Loading
         val result = repository.login(email, password)
         _loginFlow.value = result
+        Log.e("loginviewmodel","login")
     }
 
     fun signup(name: String, email: String, password: String,location:String) = viewModelScope.launch {
         _signupFlow.value = Resource.Loading
         val result = repository.signup(name, email, password,location)
         _signupFlow.value = result
+        Log.e("loginviewmodel","signup")
     }
 
     fun logOut() = viewModelScope.launch {
