@@ -38,7 +38,8 @@ class OrderPageFragment : Fragment() {
         binding.buttonClearCart.visibility = View.INVISIBLE
         binding.cardViewOrder.visibility = View.INVISIBLE
 
-        val mainPageProductAdapter = OrderPageProductAdapter(emptyList(), viewModel,requireContext())
+        val mainPageProductAdapter =
+            OrderPageProductAdapter(emptyList(), viewModel, requireContext())
         binding.rv.adapter = mainPageProductAdapter
 
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
@@ -85,31 +86,36 @@ class OrderPageFragment : Fragment() {
             binding.rv.adapter = mainPageProductAdapter
             binding.textViewTotalPrice.text = ""
 
-            lottieAnimation()
+            lottieClearCart()
+        }
+
+        binding.button.setOnClickListener {
+            lottieOrder()
         }
 
         return binding.root
     }
 
-    fun lottieAnimation(){
+    fun lottieClearCart() {
         animationVisibility = true
-        binding.lottieAnimation.visibility = View.VISIBLE
+        binding.lottieClearCartAnimation.visibility = View.VISIBLE
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                binding.lottieAnimation.visibility = View.VISIBLE
-                binding.lottieAnimation.playAnimation()
+                binding.lottieClearCartAnimation.visibility = View.VISIBLE
+                binding.lottieClearCartAnimation.playAnimation()
             }, 0
         )
 
-        binding.lottieAnimation.playAnimation()
-        binding.lottieAnimation.addAnimatorListener(object: Animator.AnimatorListener {
+        binding.lottieClearCartAnimation.playAnimation()
+        binding.lottieClearCartAnimation.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(p0: Animator) {
             }
 
             override fun onAnimationEnd(p0: Animator) {
-                binding.lottieAnimation.visibility = View.GONE
+                binding.lottieClearCartAnimation.visibility = View.GONE
                 animationVisibility = false
                 binding.emptyCartLayout.visibility = View.VISIBLE
+
             }
 
             override fun onAnimationCancel(p0: Animator) {
@@ -120,6 +126,46 @@ class OrderPageFragment : Fragment() {
 
         })
 
+    }
+
+
+    fun lottieOrder() {
+        val lottie = binding.lottieOrderAnimation
+        animationVisibility = true
+        lottie.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                lottie.visibility = View.VISIBLE
+                lottie.playAnimation()
+            }, 0
+        )
+
+        lottie.playAnimation()
+        lottie.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator) {
+
+            }
+
+            override fun onAnimationEnd(p0: Animator) {
+                lottie.visibility = View.GONE
+                animationVisibility = false
+
+                binding.emptyCartLayout.visibility = View.VISIBLE
+                viewModel.deleteAllProductInCart()
+                binding.buttonClearCart.visibility = View.INVISIBLE
+                binding.cardViewOrder.visibility = View.INVISIBLE
+                binding.textViewTotalPrice.text = ""
+                binding.rv.visibility = View.INVISIBLE
+
+            }
+
+            override fun onAnimationCancel(p0: Animator) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator) {
+            }
+
+        })
     }
 
 

@@ -39,7 +39,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimation"
+        android:id="@+id/lottieClearCartAnimation"
         android:layout_width="200dp"
         android:layout_height="200dp"
         app:lottie_autoPlay="false"
@@ -51,7 +51,22 @@
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"
         >
+    </com.airbnb.lottie.LottieAnimationView>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieOrderAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="false"
+        android:elevation="5dp"
+        app:lottie_speed="1"
+        app:lottie_fileName="lottie_order_animation.json"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        >
     </com.airbnb.lottie.LottieAnimationView>
 
 
