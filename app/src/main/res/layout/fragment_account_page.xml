@@ -50,55 +50,174 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <TextView
-        android:id="@+id/textViewUserName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:text="TextView"
-        android:padding="4dp"
-        android:fontFamily="@font/latinka_bold"
-        android:textSize="18sp"
-        android:background="@drawable/bg_cream_rounded"
-        app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:elevation="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
 
-    <TextView
-        android:id="@+id/textViewUserMail"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewUserName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:text="TextView"
-        android:padding="4dp"
-        android:elevation="2dp"
-        android:fontFamily="@font/latinka_bold"
-        android:textSize="18sp"
-        android:background="@drawable/bg_cream_rounded"
-        app:layout_constraintBottom_toTopOf="@+id/textViewUserLocation"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewUserLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFood">
 
-    <TextView
-        android:id="@+id/textViewUserLocation"
-        android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewUserNameTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_green"
+                android:fontFamily="@font/latinka_bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="Kullanıcı Adı"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/custom_red" />
+
+            <TextView
+                android:id="@+id/textViewUserName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/image_background1"
+                android:fontFamily="@font/latinka_bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="TextView"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewUserMail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:text="TextView"
-        android:padding="4dp"
-        android:elevation="2dp"
-        android:fontFamily="@font/latinka_bold"
-        android:textSize="18sp"
-        android:background="@drawable/bg_cream_rounded"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewUserMail" />
+        app:layout_constraintTop_toBottomOf="@+id/cardViewUserLocation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewUserUserLocationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_green"
+                android:fontFamily="@font/latinka_bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="Lokasyon"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/custom_red" />
+            <TextView
+                android:id="@+id/textViewUserLocation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/image_background1"
+                android:fontFamily="@font/latinka_bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="TextView"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewUserLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewUserMail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewUserName">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/extViewUserUserMailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_green"
+
+                android:fontFamily="@font/latinka_bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="Mail"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/custom_red" />
+            <TextView
+                android:id="@+id/textViewUserMail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/image_background1"
+                android:fontFamily="@font/latinka_bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="TextView"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
