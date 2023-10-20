@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.foodorderapp.data.model.cart.Cart
 import com.example.foodorderapp.data.model.cart.CartResponce
+import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
 import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.data.repository.AuthRepository
 import com.example.foodorderapp.data.repository.ProductRepository
@@ -23,8 +24,7 @@ class FavoritePageViewModel @Inject constructor(
     private val repository: AuthRepository, private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    val cartListLiveData = MutableLiveData<CartResponce>()
-    val privateCartListFlow = MutableStateFlow<CartResponce?>(null)
+    val cartListLiveData = MutableLiveData<List<DataBaseProductModel>?>()
 
     init {
         getProductInDB()
@@ -33,9 +33,7 @@ class FavoritePageViewModel @Inject constructor(
     fun getProductInDB() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                Log.e("veri tabanı", "işlem başladı")
-                val veri = productRepository.getAllProductInDB()
-                Log.e("veri tabanı", "$veri")
+                cartListLiveData.value = productRepository.getAllProductInDB()
             } catch (e: Exception) {
                 Log.e("veri tabanı hata", e.toString())
             }
