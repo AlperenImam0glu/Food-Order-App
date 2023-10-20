@@ -27,7 +27,15 @@ class LoginPageViewModel @Inject constructor(
     init {
         if(repository.currentUser !=null){
             _loginFlow.value = Resource.Success(repository.currentUser!!)
+        }else{
+            _signupFlow.value = null
+            _loginFlow.value = null
         }
+    }
+
+    fun resetFlows(){
+        _signupFlow.value = null
+        _loginFlow.value = null
     }
 
     fun login(email: String, password: String) = viewModelScope.launch {

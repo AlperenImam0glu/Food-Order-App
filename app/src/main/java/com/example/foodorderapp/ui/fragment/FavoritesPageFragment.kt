@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
 import com.example.foodorderapp.databinding.FragmentFavoritesPageBinding
 import com.example.foodorderapp.ui.adapter.FavoritePageProductAdapter
 import com.example.foodorderapp.ui.adapter.MainPageProductAdapter
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavoritesPageFragment : Fragment() {
 
-    private lateinit var binding : FragmentFavoritesPageBinding
+    private lateinit var binding: FragmentFavoritesPageBinding
     private lateinit var viewModel: FavoritePageViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,20 +38,29 @@ class FavoritesPageFragment : Fragment() {
 
         binding.emptyListLayout.visibility = View.VISIBLE
 
-        val mainPageProductAdapter = FavoritePageProductAdapter(emptyList(), viewModel,requireContext())
+        val mainPageProductAdapter =
+            FavoritePageProductAdapter(emptyList(), viewModel, requireContext())
         binding.rv.adapter = mainPageProductAdapter
 
-        viewModel.cartListLiveData.observe(viewLifecycleOwner){
+        val favoritesList = ArrayList<DataBaseProductModel>()
+        viewModel.cartListLiveData.observe(viewLifecycleOwner) {
             it?.let {
-                mainPageProductAdapter.productList = it
+
+                Log.e("kullanici","${viewModel.currentUser?.uid}")
+                for (i in it) {
+                    if (i.kullanici_id == viewModel.currentUser?.uid) {
+                        favoritesList.add(i)
+                    }
+                }
+                mainPageProductAdapter.productList = favoritesList
                 mainPageProductAdapter.notifyDataSetChanged()
                 binding.rv.adapter = mainPageProductAdapter
 
-                if(it.size >0){
+                if (it.size > 0) {
                     binding.emptyListLayout.visibility = View.GONE
                 }
             }
-            Log.e("gelen veri türü","$it")
+            Log.e("gelen veri türü", "$it")
         }
 
         return binding.root

@@ -16,7 +16,6 @@ class RemoteDataSource(var retrofitDAO: RetrofitDAO) {
 
     suspend fun addProductToCart(product: Yemekler, userName: String): CRUDResponce =
         withContext(Dispatchers.IO) {
-            val userName = "alperen_deneme"
             return@withContext retrofitDAO.addProductToCart(
                 product.yemek_adi ?: "",
                 product.yemek_resim_adi ?: "",

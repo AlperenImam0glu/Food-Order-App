@@ -26,9 +26,14 @@ class FavoritePageViewModel @Inject constructor(
 
     val cartListLiveData = MutableLiveData<List<DataBaseProductModel>?>()
 
+
+    val currentUser: FirebaseUser?
+        get() = repository.currentUser
     init {
         getProductInDB()
     }
+
+
 
     fun getProductInDB() {
         CoroutineScope(Dispatchers.Main).launch {

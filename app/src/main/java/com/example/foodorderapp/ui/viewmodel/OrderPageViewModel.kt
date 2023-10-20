@@ -2,6 +2,7 @@ package com.example.foodorderapp.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.foodorderapp.data.model.CRUDResponce
 import com.example.foodorderapp.data.model.cart.Cart
 import com.example.foodorderapp.data.model.cart.CartResponce
 import com.example.foodorderapp.data.model.product.Yemekler
@@ -33,7 +34,10 @@ class OrderPageViewModel @Inject constructor(
     fun addProductToCart(product: Yemekler) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val responce = productRepository.addProductToCart(product, "alperen_deneme")
+
+                var responce = CRUDResponce("",0)
+                currentUser?.let { responce = productRepository.addProductToCart(product, it.uid) }
+                Log.e("viewmodel sepet veri ekleme durumu", "${responce.success} - ${responce.message}")
                 Log.e(
                     "gelen cevap",
                     "${responce.success.toString()} - ${responce.message.toString()}"
@@ -48,9 +52,13 @@ class OrderPageViewModel @Inject constructor(
     fun getProductInCart() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val responce = productRepository.getProductInCart("alperen_deneme")
 
-                cartListFlow.value = responce
+                currentUser?.let {
+                    val responce = productRepository.getProductInCart(it.uid)
+                    cartListFlow.value = responce
+                    Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                }
+
             } catch (e: Exception) {
 
                 Log.e("hata silme", "veri getirme hastası ${e.message}")
@@ -64,7 +72,10 @@ class OrderPageViewModel @Inject constructor(
     fun deleteProductInCart(yemek_id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val responce = productRepository.deleteProductInCart(yemek_id, "alperen_deneme")
+                currentUser?.let {
+                    val responce =   productRepository.deleteProductInCart(yemek_id, it.uid)
+                    Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                }
                 getProductInCart()
             } catch (e: Exception) {
                 Log.e("hata silme", " silinme hatası ${e.message}")
@@ -77,10 +88,10 @@ class OrderPageViewModel @Inject constructor(
             try {
                 cartListFlow.value?.let {
                     for (i in it.sepet_yemekler!!) {
-                        val responce = productRepository.deleteProductInCart(
-                            i.sepet_yemek_id,
-                            "alperen_deneme"
-                        )
+                        currentUser?.let {
+                            val responce =   productRepository.deleteProductInCart(i.sepet_yemek_id, it.uid)
+                            Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                        }
                     }
                 }
                 getProductInCart()

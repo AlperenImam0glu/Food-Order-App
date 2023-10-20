@@ -2,6 +2,7 @@ package com.example.foodorderapp.ui.fragment
 
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,7 @@ class LoginPageFragment : Fragment() {
             login()
         }
 
-        binding.textViewRegiter.setOnClickListener {
+        binding.textViewSingup.setOnClickListener {
             val action = LoginPageFragmentDirections.navigateToRegisterPage()
             Navigation.findNavController(it).navigate(action)
         }
@@ -68,14 +69,15 @@ class LoginPageFragment : Fragment() {
                     }
 
                     Resource.Loading -> {
+                        Log.e("login işlemi", "çalıştı")
                         Toast.makeText(requireContext(), "Bekleniyor", Toast.LENGTH_SHORT).show()
                     }
 
                     is Resource.Success -> {
-                        Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
                         val action = LoginPageFragmentDirections.navigateToMainPageFragment()
-                        Navigation.findNavController(binding.buttonLogin).navigate(action)
-                        navBar.visibility= View.VISIBLE
+                        Navigation.findNavController(binding.texrViewTitle).navigate(action)
+                        //navBar.visibility= View.VISIBLE
+
                     }
 
                     else -> {}
@@ -84,5 +86,18 @@ class LoginPageFragment : Fragment() {
 
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(viewModel.currentUser !=null){
+            Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
+            val action = LoginPageFragmentDirections.navigateToMainPageFragment()
+            Navigation.findNavController(binding.buttonLogin).navigate(action)
+            navBar.visibility= View.VISIBLE
+        }else{
+           viewModel.resetFlows()
+        }
+
     }
 }

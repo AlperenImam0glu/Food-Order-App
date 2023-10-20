@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import com.example.foodorderapp.data.model.cart.Cart
 import com.example.foodorderapp.data.model.cart.CartResponce
 import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
@@ -12,6 +13,7 @@ import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.data.model.user.User
 import com.example.foodorderapp.data.repository.AuthRepository
 import com.example.foodorderapp.data.repository.ProductRepository
+import com.example.foodorderapp.ui.fragment.AccountPageFragmentDirections
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,5 +60,10 @@ class AccountPageViewModel @Inject constructor(
                 }
         }
 
+    }
+
+
+    fun logOut() = viewModelScope.launch {
+        repository.logout()
     }
 }

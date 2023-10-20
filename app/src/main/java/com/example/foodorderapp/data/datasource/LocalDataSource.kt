@@ -14,18 +14,19 @@ class LocalDataSource(var retrofitDAO: RoomDAO) {
     }
 
     suspend fun deleteProdcutInDB(product_id: Int) {
-        val product = DataBaseProductModel(product_id, "", "", "", "", 1)
+        val product = DataBaseProductModel(product_id, "", "", "", "", 1,"")
         retrofitDAO.deleteProdcutInDB(product)
     }
 
-    suspend fun saveProdcutInDB(product: Yemekler) {
+    suspend fun saveProdcutInDB(product: Yemekler,userId:String) {
         val product = DataBaseProductModel(
             0,
             product.yemek_adi ?: "",
             product.yemek_resim_adi ?: "",
             product.yemek_fiyat ?: "",
             product.yemek_id ?: "",
-            product.yemek_siparis_adet
+            product.yemek_siparis_adet,
+            userId
         )
         retrofitDAO.saveProdcutInDB(product)
     }

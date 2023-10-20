@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import com.example.foodorderapp.data.model.Resource
 import com.example.foodorderapp.databinding.FragmentRegisterPageBinding
 import com.example.foodorderapp.ui.viewmodel.LoginPageViewModel
@@ -35,6 +37,9 @@ class SignupPageFragment : Fragment() {
 
         binding.buttonLogin.setOnClickListener {
             signup()
+        }
+        binding.textViewLogin.setOnClickListener {
+            findNavController(binding.buttonLogin).popBackStack()
         }
 
 
@@ -68,15 +73,11 @@ class SignupPageFragment : Fragment() {
 
                     is Resource.Success -> {
                         Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
-                        val action = LoginPageFragmentDirections.navigateToMainPageFragment()
-                        Navigation.findNavController(binding.buttonLogin).navigate(action)
+                        findNavController(binding.buttonLogin).popBackStack()
                     }
-
                     else -> {}
                 }
             }
-
-
         }
     }
 

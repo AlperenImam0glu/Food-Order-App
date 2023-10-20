@@ -28,7 +28,7 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun deleteProductInDB(product_id: Int) =
         localDataSource.deleteProdcutInDB(product_id)
 
-    override suspend fun saveProdcutInDB(product: Yemekler)  = localDataSource.saveProdcutInDB(product)
+    override suspend fun saveProdcutInDB(product: Yemekler,userId:String)  = localDataSource.saveProdcutInDB(product,userId)
 
 
 }

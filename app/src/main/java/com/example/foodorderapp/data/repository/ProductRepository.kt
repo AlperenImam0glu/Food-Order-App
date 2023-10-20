@@ -24,7 +24,7 @@ interface ProductRepository {
 
     suspend fun deleteProductInDB(product_id:Int)
 
-    suspend fun saveProdcutInDB(product:Yemekler)
+    suspend fun saveProdcutInDB(product:Yemekler,userId:String)
 
     // suspend fun removeProductFromCart()
     //  suspend fun removeAllProductFromCart()

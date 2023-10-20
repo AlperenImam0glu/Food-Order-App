@@ -3,6 +3,7 @@ package com.example.foodorderapp.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.foodorderapp.data.model.CRUDResponce
 import com.example.foodorderapp.data.model.cart.Cart
 import com.example.foodorderapp.data.model.cart.CartResponce
 import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
@@ -40,12 +41,11 @@ class ProductDetailPageViewModel @Inject constructor(
     fun getProductInCart() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val responce = productRepository.getProductInCart("alperen_deneme")
-                Log.e(
-                    "gelen cevap",
-                    "${responce.success.toString()} - ${responce.sepet_yemekler.toString()}"
-                )
-                cartListLiveData.value = responce
+                currentUser?.let {
+                    val responce = productRepository.getProductInCart(it.uid)
+                    cartListLiveData.value = responce
+                    Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                }
             } catch (e: Exception) {
                 Log.e("hata", e.toString())
             }
@@ -95,8 +95,9 @@ class ProductDetailPageViewModel @Inject constructor(
     fun addNewItemCart(product: Yemekler) {
         runBlocking {
             try {
-                productRepository.addProductToCart(product, "alperen_deneme")
-                Log.e("viewmodel sepet veri ekleme", "7 tek veri ekleme tamamlandı")
+                var responce = CRUDResponce("",0)
+                currentUser?.let { responce = productRepository.addProductToCart(product, it.uid) }
+                Log.e("viewmodel sepet veri ekleme durumu", "${responce.success} - ${responce.message}")
             } catch (e: Exception) {
                 Log.e("viewmodel veri ekleme hata", "sepet veri ekleme hata  : ${e.message}")
             }
@@ -108,12 +109,11 @@ class ProductDetailPageViewModel @Inject constructor(
 
         runBlocking {
             try {
-                val responce = productRepository.getProductInCart("alperen_deneme")
-                privateCartListFlow.value = responce
-                Log.e(
-                    "viewmodel sepet verileri",
-                    "sepet verileri alma responce : ${responce.success}"
-                )
+                currentUser?.let {
+                    val responce = productRepository.getProductInCart(it.uid)
+                    privateCartListFlow.value = responce
+                    Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                }
             } catch (e: Exception) {
                 Log.e("viewmodel sepet verileri hata", "sepet verileri alma hata: ${e.message}")
             }
@@ -128,10 +128,10 @@ class ProductDetailPageViewModel @Inject constructor(
             try {
                 list?.let {
                     for (i in 0..it.size - 1) {
-                        val response = productRepository.deleteProductInCart(
-                            list[i].sepet_yemek_id,
-                            "alperen_deneme"
-                        )
+                        currentUser?.let {
+                            val responce =   productRepository.deleteProductInCart(list[i].sepet_yemek_id, it.uid)
+                            Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                        }
                     }
                     Log.e("viewmodel sepet silme hata", "5 sepet silme tamamlandı")
                 }
@@ -147,7 +147,9 @@ class ProductDetailPageViewModel @Inject constructor(
                 list?.let {
                     for (i in 0..it.size - 1) {
                         val product = converCartObjectToProductObject(list[i])
-                        productRepository.addProductToCart(product, "alperen_deneme")
+                        var responce = CRUDResponce("",0)
+                        currentUser?.let { responce = productRepository.addProductToCart(product, it.uid) }
+                        Log.e("viewmodel sepet veri ekleme durumu", "${responce.success} - ${responce.message}")
                     }
                     Log.e("viewmodel sepet veri ekleme", "7 liste veri ekleme tamamlandı")
                 }
@@ -189,9 +191,10 @@ class ProductDetailPageViewModel @Inject constructor(
     fun deleteOneProductInCartWithId(yemek_sepet_id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val responce =
-                    productRepository.deleteProductInCart(yemek_sepet_id, "alperen_deneme")
-                Log.e("deleteOneProductInCart", "${responce.success}")
+                currentUser?.let {
+                    val responce =   productRepository.deleteProductInCart(yemek_sepet_id, it.uid)
+                    Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                }
             } catch (e: Exception) {
                 Log.e("deleteOneProductInCart", e.toString())
             }
@@ -236,7 +239,8 @@ class ProductDetailPageViewModel @Inject constructor(
         if(!b){
             CoroutineScope(Dispatchers.Main).launch {
                 try {
-                  productRepository.saveProdcutInDB(product)
+                    Log.e("veri tabanı hata", "${currentUser?.uid}")
+                    currentUser?.let { productRepository.saveProdcutInDB(product, it.uid) }
                 } catch (e: Exception) {
                     Log.e("veri tabanı hata", e.toString())
                 }

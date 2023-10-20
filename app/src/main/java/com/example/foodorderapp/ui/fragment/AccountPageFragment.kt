@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.example.foodorderapp.R
 import com.example.foodorderapp.databinding.FragmentAccountPageBinding
 import com.example.foodorderapp.databinding.FragmentProductDetailPageBinding
@@ -37,6 +38,12 @@ class AccountPageFragment : Fragment() {
                     binding.textViewUserLocation.text = it.location
                 }
             }
+        }
+
+        binding.button2.setOnClickListener {
+            viewModel.logOut()
+            val action = AccountPageFragmentDirections.navigateToLogOut()
+            Navigation.findNavController(it).navigate(action)
         }
 
         return binding.root

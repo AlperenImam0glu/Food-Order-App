@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextLocation" />
 
     <TextView
-        android:id="@+id/textViewRegiter"
+        android:id="@+id/textViewLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -105,7 +105,6 @@
         android:background="@drawable/rounded_bg"
         android:elevation="2dp"
         android:hint="Location"
-        android:inputType="textPassword"
         android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +119,6 @@
         android:background="@drawable/rounded_bg"
         android:elevation="2dp"
         android:hint="Name"
-        android:inputType="textPassword"
         android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
