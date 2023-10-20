@@ -31,39 +31,41 @@ class FavoritesPageFragment : Fragment() {
 
         binding.rv.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
         binding.rv.addItemDecoration(
             MarginItemDecoration(16)
         )
-
         binding.emptyListLayout.visibility = View.VISIBLE
 
-        val mainPageProductAdapter =
-            FavoritePageProductAdapter(emptyList(), viewModel, requireContext())
+        val mainPageProductAdapter = FavoritePageProductAdapter(emptyList(), viewModel, requireContext())
         binding.rv.adapter = mainPageProductAdapter
 
         val favoritesList = ArrayList<DataBaseProductModel>()
         viewModel.cartListLiveData.observe(viewLifecycleOwner) {
             it?.let {
-
-                Log.e("kullanici","${viewModel.currentUser?.uid}")
+                favoritesList.clear()
                 for (i in it) {
                     if (i.kullanici_id == viewModel.currentUser?.uid) {
-                        favoritesList.add(i)
-                    }
+                        favoritesList.add(i) }
                 }
                 mainPageProductAdapter.productList = favoritesList
-                mainPageProductAdapter.notifyDataSetChanged()
                 binding.rv.adapter = mainPageProductAdapter
-
                 if (it.size > 0) {
                     binding.emptyListLayout.visibility = View.GONE
+                }else{
+                    binding.emptyListLayout.visibility = View.VISIBLE
                 }
+                Log.e("gelen veri türü", "liste ${favoritesList.size}")
+                Log.e("gelen veri türü", "it ${it.size}")
             }
-            Log.e("gelen veri türü", "$it")
+
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getProductInDB()
     }
 
 

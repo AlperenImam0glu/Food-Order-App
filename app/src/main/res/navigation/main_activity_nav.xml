@@ -61,7 +61,11 @@
         android:id="@+id/orderPageFragment"
         android:name="com.example.foodorderapp.ui.fragment.OrderPageFragment"
         android:label="fragment_order_page"
-        tools:layout="@layout/fragment_order_page" />
+        tools:layout="@layout/fragment_order_page" >
+        <action
+            android:id="@+id/order_page_to_detail_page"
+            app:destination="@id/productDetailPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountPageFragment"
         android:name="com.example.foodorderapp.ui.fragment.AccountPageFragment"

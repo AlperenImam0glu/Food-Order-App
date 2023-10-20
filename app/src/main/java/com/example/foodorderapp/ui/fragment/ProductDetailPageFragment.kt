@@ -35,20 +35,20 @@ class ProductDetailPageFragment : Fragment() {
 
         var list = emptyList<Cart>()
         val bundle: ProductDetailPageFragmentArgs by navArgs()
-        val yemek = bundle.yemek
+        val product = bundle.yemek
 
-        binding.textViewCartCount.text = yemek.yemek_siparis_adet.toString()
-        binding.textViewProductName.text = yemek.yemek_adi
-        binding.textViewProductPrice.text = "${yemek.yemek_fiyat} ₺"
+        binding.textViewCartCount.text = product.yemek_siparis_adet.toString()
+        binding.textViewProductName.text = product.yemek_adi
+        binding.textViewProductPrice.text = "${product.yemek_fiyat} ₺"
 
 
-        yemek.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
+        product.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
 
         viewModel.cartListLiveData.observe(viewLifecycleOwner) {
             list = it.sepet_yemekler!!
             for (i in list) {
                 Log.e("Liste özeti", i.yemek_adi)
-                if (i.yemek_adi == yemek.yemek_adi) {
+                if (i.yemek_adi == product.yemek_adi) {
                     binding.textViewCartCount.text = i.yemek_siparis_adet.toString()
                 }
             }
@@ -57,7 +57,7 @@ class ProductDetailPageFragment : Fragment() {
         viewModel.databaseLiveData.observe(viewLifecycleOwner) {
             if (it != null) {
                 for (i in it) {
-                    if (yemek.yemek_id == i.yemek_id) {
+                    if (product.yemek_id == i.yemek_id) {
                         isFavorited = true
                         prodcutDbId = i.uid
                         binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red);
@@ -74,21 +74,19 @@ class ProductDetailPageFragment : Fragment() {
                 Toast.makeText(requireContext(), "Favorilerden Kaldırıldı", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                viewModel.addProductInDB(yemek)
+                viewModel.addProductInDB(product)
                 binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red)
                 Toast.makeText(requireContext(), "Favorilere Eklendi", Toast.LENGTH_SHORT).show()
             }
         }
 
 
-
-
         binding.buttonAddToCart.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt()
 
             if (count != 0) {
-                yemek.yemek_siparis_adet = count
-                viewModel.addProductToCart(yemek)
+                product.yemek_siparis_adet = count
+                viewModel.addProductToCart(product)
                 binding.buttonAddToCart.text = "Sepete Ekle"
                 binding.buttonAddToCart.backgroundTintList = ColorStateList.valueOf(
                     requireContext().resources.getColor(
@@ -97,7 +95,7 @@ class ProductDetailPageFragment : Fragment() {
                 )
                 Toast.makeText(requireContext(), "Sepete Eklendi", Toast.LENGTH_SHORT).show()
             } else if (count == 0 && binding.buttonAddToCart.text == "Güncelle") {
-                viewModel.deleteOneProdutInCart(yemek)
+                viewModel.deleteOneProdutInCart(product)
                 binding.buttonAddToCart.text = "Sepete Ekle"
                 binding.buttonAddToCart.backgroundTintList = ColorStateList.valueOf(
                     requireContext().resources.getColor(
@@ -115,10 +113,13 @@ class ProductDetailPageFragment : Fragment() {
             }
         }
 
-
         binding.buttonAdd.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt() + 1
-            binding.buttonAddToCart.text = "Güncelle"
+            if (product.yemek_siparis_adet != 0) {
+                binding.buttonAddToCart.text = "Güncelle"
+            } else {
+                binding.buttonAddToCart.text = "Sepete Ekle"
+            }
             binding.textViewCartCount.text = "$count"
             binding.buttonAddToCart.backgroundTintList = ColorStateList.valueOf(
                 requireContext().resources.getColor(
@@ -131,7 +132,11 @@ class ProductDetailPageFragment : Fragment() {
             if (binding.textViewCartCount.text.toString().toInt() > 0) {
                 val count = binding.textViewCartCount.text.toString().toInt() - 1
                 binding.textViewCartCount.text = "$count"
-                binding.buttonAddToCart.text = "Güncelle"
+                if (product.yemek_siparis_adet != 0) {
+                    binding.buttonAddToCart.text = "Güncelle"
+                } else {
+                    binding.buttonAddToCart.text = "Sepete Ekle"
+                }
                 binding.buttonAddToCart.backgroundTintList = ColorStateList.valueOf(
                     requireContext().resources.getColor(R.color.custom_red)
                 )

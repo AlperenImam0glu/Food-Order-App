@@ -38,12 +38,12 @@ class MainPageFragment : Fragment() {
         binding.rv.addItemDecoration(
             MarginItemDecoration(16)
         )
-        val mainPageProductAdapter = MainPageProductAdapter(emptyList(), viewModel,requireContext())
+        val mainPageProductAdapter =
+            MainPageProductAdapter(emptyList(), viewModel, requireContext(), emptyList())
         binding.rv.adapter = mainPageProductAdapter
 
         lifecycleScope.launchWhenCreated {
             viewModel.combineFlow.collectLatest {
-                Log.e("viewmodel","COMBINE TETİKLENDİ")
                 mergeData(mainPageProductAdapter)
             }
         }
@@ -52,6 +52,9 @@ class MainPageFragment : Fragment() {
             viewModel.productListFlow.collectLatest { products ->
                 products?.let {
                     mainPageProductAdapter.productList = it
+                    viewModel.favoritesDataFlow.value?.let {
+                        mainPageProductAdapter.favoriteList = it
+                    }
                     mainPageProductAdapter.notifyDataSetChanged()
                 }
             }
@@ -61,7 +64,7 @@ class MainPageFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.userInfoFlow.collectLatest {
                 it?.let {
-                    binding.textViewUserNameSubtitle.visibility =View.VISIBLE
+                    binding.textViewUserNameSubtitle.visibility = View.VISIBLE
                     binding.textViewUserName.text = viewModel.userInfoFlow.value?.name.toString()
                     binding.textViewToolbar.text = viewModel.userInfoFlow.value?.location.toString()
                 }
@@ -71,15 +74,19 @@ class MainPageFragment : Fragment() {
     }
 
     fun mergeData(mainPageProductAdapter: MainPageProductAdapter) {
-            val productList = viewModel.mergeFlowsData()
-            mainPageProductAdapter.productList = productList
-            mainPageProductAdapter.notifyDataSetChanged()
+        val productList = viewModel.mergeFlowsData()
+        mainPageProductAdapter.productList = productList
+        viewModel.favoritesDataFlow.value?.let {
+            mainPageProductAdapter.favoriteList = it
+        }
+        mainPageProductAdapter.notifyDataSetChanged()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getAllProduct()
         viewModel.getProductsInCart()
+        viewModel.getProductInDB()
     }
 
 

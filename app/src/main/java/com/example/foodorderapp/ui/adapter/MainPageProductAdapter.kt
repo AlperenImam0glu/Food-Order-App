@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodorderapp.R
+import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
 import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.databinding.RvItemMainPageBinding
 import com.example.foodorderapp.ui.fragment.MainPageFragmentDirections
@@ -18,7 +19,8 @@ import com.example.foodorderapp.utils.loadImage
 class MainPageProductAdapter(
     var productList: List<Yemekler>,
     val viewModel: MainPageViewModel,
-    val mContext: Context
+    val mContext: Context,
+    var favoriteList: List<DataBaseProductModel>
 ) :
     RecyclerView.Adapter<MainPageProductAdapter.ViewHolder>() {
 
@@ -33,17 +35,49 @@ class MainPageProductAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val binding = holder.binding
-        var food = productList[position]
+        var product = productList[position]
+        binding.textViewFoodName.text = product.yemek_adi
+        binding.textViewFoodPrice.text = "${product.yemek_fiyat} ₺"
+        product.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
+        binding.textViewCartCount.text = product.yemek_siparis_adet.toString()
 
-        val checkCount = binding.textViewCartCount.text.toString().toInt()
-        binding.textViewFoodName.text = food.yemek_adi
-        binding.textViewFoodPrice.text = "${food.yemek_fiyat} ₺"
-        food.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
+        binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled)
+        favoriteList?.let {
+            for (i in favoriteList.indices) {
+                if (productList[position].yemek_id == favoriteList[i].yemek_id) {
+                    binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red)
+                }
+            }
+        }
 
-        binding.textViewCartCount.text = food.yemek_siparis_adet.toString()
+        var isFavorited = false
+        var productDBuid = 0
+        binding.imageViewFavorite.setOnClickListener {
+            favoriteList?.let {
+                for (i in favoriteList.indices) {
+                    if (product.yemek_id == favoriteList[i].yemek_id) {
+                        isFavorited = true
+                        productDBuid = favoriteList[i].uid
+                    }
+                }
+                if (isFavorited) {
+                    viewModel.deleteProductInDB(productDBuid)
+                    binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled)
+                    Toast.makeText(mContext, "Favorilerden Kaldırıldı", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    viewModel.addProductInDB(product)
+                    binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red)
+                    Toast.makeText(mContext, "Favorilere Eklendi", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+        }
+
 
         binding.cardView.setOnClickListener {
-            food?.let { food ->
+            product?.let { food ->
                 val action =
                     MainPageFragmentDirections.actionMainPageFragmentToProductDetailPageFragment(
                         food
@@ -55,25 +89,30 @@ class MainPageProductAdapter(
         binding.buttonAdd.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt() + 1
             binding.textViewCartCount.text = "$count"
-            binding.buttonSepeteEkle.text = "Güncelle"
+
+            if (product.yemek_siparis_adet != 0) {
+                binding.buttonSepeteEkle.text = "Güncelle"
+            } else {
+                binding.buttonSepeteEkle.text = "Sepete Ekle"
+            }
+
             binding.buttonSepeteEkle.backgroundTintList =
                 ColorStateList.valueOf(mContext.resources.getColor(R.color.custom_red))
-
         }
 
         binding.buttonSepeteEkle.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt()
 
             if (count != 0) {
-                food.yemek_siparis_adet = count
-                viewModel.addProductToCart(food)
+                product.yemek_siparis_adet = count
+                viewModel.addProductToCart(product)
                 binding.buttonSepeteEkle.text = "Sepete Ekle"
                 Toast.makeText(mContext, "Sepete Eklendi", Toast.LENGTH_SHORT).show()
                 binding.buttonSepeteEkle.backgroundTintList =
                     ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
 
             } else if (count == 0 && binding.buttonSepeteEkle.text == "Güncelle") {
-                viewModel.deleteOneProdutInCart(food)
+                viewModel.deleteOneProdutInCart(product)
                 binding.buttonSepeteEkle.text = "Ekle"
                 binding.buttonSepeteEkle.text = "Sepete Ekle"
                 binding.buttonSepeteEkle.backgroundTintList =
@@ -91,7 +130,11 @@ class MainPageProductAdapter(
             if (binding.textViewCartCount.text.toString().toInt() > 0) {
                 val count = binding.textViewCartCount.text.toString().toInt() - 1
                 binding.textViewCartCount.text = "$count"
-                binding.buttonSepeteEkle.text = "Güncelle"
+                if (product.yemek_siparis_adet != 0) {
+                    binding.buttonSepeteEkle.text = "Güncelle"
+                } else {
+                    binding.buttonSepeteEkle.text = "Sepete Ekle"
+                }
                 binding.buttonSepeteEkle.backgroundTintList =
                     ColorStateList.valueOf(mContext.resources.getColor(R.color.custom_red))
             } else {

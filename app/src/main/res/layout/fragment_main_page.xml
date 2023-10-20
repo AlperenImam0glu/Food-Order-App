@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="4dp"
-            android:src="@drawable/ic_location" />
+            android:src="@drawable/ic_location_filled" />
 
         <TextView
             android:id="@+id/textViewToolbar"

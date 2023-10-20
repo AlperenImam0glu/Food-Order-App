@@ -168,5 +168,10 @@ class OrderPageFragment : Fragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getProductInCart()
+    }
+
 
 }

@@ -9,6 +9,7 @@ import com.example.foodorderapp.data.model.CRUDResponce
 import com.example.foodorderapp.data.model.Resource
 import com.example.foodorderapp.data.model.cart.Cart
 import com.example.foodorderapp.data.model.cart.CartResponce
+import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
 import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.data.model.user.User
 import com.example.foodorderapp.data.repository.AuthRepository
@@ -39,8 +40,13 @@ class MainPageViewModel @Inject constructor(
     val cartListFlow = MutableStateFlow<CartResponce?>(null)
     val privateCartListFlow = MutableStateFlow<CartResponce?>(null)
     val progressFlow = MutableLiveData<Boolean>(false)
+    val favoritesDataFlow = MutableStateFlow<List<DataBaseProductModel>?>(null)
 
-    val combineFlow = productListFlow.combine(cartListFlow) { flow1Value, flow2Value ->
+    val combineFlow = combine(
+        cartListFlow,
+        productListFlow,
+        favoritesDataFlow
+    ) { flow1Value, flow2Value, flow3Value ->
     }
 
     val currentUser: FirebaseUser?
@@ -52,6 +58,7 @@ class MainPageViewModel @Inject constructor(
         }
         getAllProduct()
         getProductsInCart()
+        getProductInDB()
     }
 
 
@@ -87,7 +94,7 @@ class MainPageViewModel @Inject constructor(
             try {
 
                 currentUser?.let {
-                    val responce =   productRepository.deleteProductInCart(yemek_sepet_id, it.uid)
+                    val responce = productRepository.deleteProductInCart(yemek_sepet_id, it.uid)
                     Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
                 }
 
@@ -179,8 +186,14 @@ class MainPageViewModel @Inject constructor(
                 list?.let {
                     for (i in 0..it.size - 1) {
                         currentUser?.let {
-                            val responce =   productRepository.deleteProductInCart(list[i].sepet_yemek_id, it.uid)
-                            Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                            val responce = productRepository.deleteProductInCart(
+                                list[i].sepet_yemek_id,
+                                it.uid
+                            )
+                            Log.e(
+                                "viewmodel sepet veri ekleme durumu",
+                                "başarı kodu ${responce.success}"
+                            )
                         }
                     }
                     Log.e("viewmodel sepet silme hata", "5 sepet silme tamamlandı")
@@ -235,8 +248,12 @@ class MainPageViewModel @Inject constructor(
                 cartListFlow.value?.let {
                     for (i in it.sepet_yemekler!!) {
                         currentUser?.let {
-                            val responce =   productRepository.deleteProductInCart(i.sepet_yemek_id, it.uid)
-                            Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
+                            val responce =
+                                productRepository.deleteProductInCart(i.sepet_yemek_id, it.uid)
+                            Log.e(
+                                "viewmodel sepet veri ekleme durumu",
+                                "başarı kodu ${responce.success}"
+                            )
                         }
 
 
@@ -328,6 +345,53 @@ class MainPageViewModel @Inject constructor(
                 currentUser?.let { productRepository.saveProdcutInDB(prodcut, it.uid) }
             } catch (e: Exception) {
                 Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
+    fun getProductInDB() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                favoritesDataFlow.value = productRepository.getAllProductInDB()
+            } catch (e: Exception) {
+                Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
+    fun deleteProductInDB(prodcutID: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                productRepository.deleteProductInDB(prodcutID)
+                getProductInDB()
+            } catch (e: Exception) {
+                Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
+    fun addProductInDB(product: Yemekler) {
+        var b = false
+        Log.e("veri tabanı hata", "çalıştı")
+        runBlocking {
+            favoritesDataFlow.value?.let {
+                for (i in it) {
+                    if (product.yemek_id == i.yemek_id) {
+                        b = true
+                    }
+                }
+            }
+        }
+        Log.e("veri tabanı hata", "kontrol edildi")
+        Log.e("veri tabanı hata", "b değeri $b")
+        if (!b) {
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    Log.e("veri tabanı hata", "${currentUser?.uid}")
+                    currentUser?.let { productRepository.saveProdcutInDB(product, it.uid) }
+                } catch (e: Exception) {
+                    Log.e("veri tabanı hata", e.toString())
+                }
             }
         }
     }
