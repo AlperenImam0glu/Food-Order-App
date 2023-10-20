@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.foodorderapp.data.model.cart.Cart
 import com.example.foodorderapp.data.model.cart.CartResponce
+import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
 import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.data.repository.AuthRepository
 import com.example.foodorderapp.data.repository.ProductRepository
@@ -24,13 +25,14 @@ class ProductDetailPageViewModel @Inject constructor(
 
 
     val cartListLiveData = MutableLiveData<CartResponce>()
-
     val privateCartListFlow = MutableStateFlow<CartResponce?>(null)
+    val databaseLiveData =  MutableLiveData<List<DataBaseProductModel>?>()
     val currentUser: FirebaseUser?
         get() = repository.currentUser
 
     init {
         getProductInCart()
+        getProductInDB()
     }
 
 
@@ -196,5 +198,50 @@ class ProductDetailPageViewModel @Inject constructor(
         }
     }
 
+    fun getProductInDB() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                databaseLiveData.value = productRepository.getAllProductInDB()
+            } catch (e: Exception) {
+                Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
+    fun deleteProductInDB(prodcutID: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                productRepository.deleteProductInDB(prodcutID)
+                getProductInDB()
+            } catch (e: Exception) {
+                Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
+    fun addProductInDB(product: Yemekler) {
+        var b = false
+        Log.e("veri tabanı hata", "çalıştı")
+        runBlocking{
+            databaseLiveData.value?.let {
+                for (i in it) {
+                    if (product.yemek_id == i.yemek_id) {
+                        b = true
+                    }
+                }
+            }
+        }
+        Log.e("veri tabanı hata", "kontrol edildi")
+        Log.e("veri tabanı hata", "b değeri $b")
+        if(!b){
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                  productRepository.saveProdcutInDB(product)
+                } catch (e: Exception) {
+                    Log.e("veri tabanı hata", e.toString())
+                }
+            }
+        }
+    }
 
 }

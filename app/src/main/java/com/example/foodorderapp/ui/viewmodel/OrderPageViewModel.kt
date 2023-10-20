@@ -49,13 +49,14 @@ class OrderPageViewModel @Inject constructor(
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val responce = productRepository.getProductInCart("alperen_deneme")
-                Log.e(
-                    "gelen cevap",
-                    "${responce.success.toString()} - ${responce.sepet_yemekler.toString()}"
-                )
+
                 cartListFlow.value = responce
             } catch (e: Exception) {
-                Log.e("hata", e.toString())
+
+                Log.e("hata silme", "veri getirme hastası ${e.message}")
+                Log.e("hata silme", "veri güncelleme önce  ${cartListFlow.value}")
+                cartListFlow.value= null
+                Log.e("hata silme", "veri güncelleme sonra  ${cartListFlow.value}")
             }
         }
     }
@@ -66,7 +67,7 @@ class OrderPageViewModel @Inject constructor(
                 val responce = productRepository.deleteProductInCart(yemek_id, "alperen_deneme")
                 getProductInCart()
             } catch (e: Exception) {
-                Log.e("hata", e.toString())
+                Log.e("hata silme", " silinme hatası ${e.message}")
             }
         }
     }

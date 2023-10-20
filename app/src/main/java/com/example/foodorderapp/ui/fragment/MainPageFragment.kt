@@ -60,8 +60,11 @@ class MainPageFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             viewModel.userInfoFlow.collectLatest {
-                binding.textViewUserName.text = viewModel.userInfoFlow.value?.name.toString()
-                binding.textViewToolbar.text = viewModel.userInfoFlow.value?.location.toString()
+                it?.let {
+                    binding.textViewUserNameSubtitle.visibility =View.VISIBLE
+                    binding.textViewUserName.text = viewModel.userInfoFlow.value?.name.toString()
+                    binding.textViewToolbar.text = viewModel.userInfoFlow.value?.location.toString()
+                }
             }
         }
         return binding.root

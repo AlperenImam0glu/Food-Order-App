@@ -46,7 +46,11 @@
         android:id="@+id/favoritesPageFragment"
         android:name="com.example.foodorderapp.ui.fragment.FavoritesPageFragment"
         android:label="fragment_favorites_page"
-        tools:layout="@layout/fragment_favorites_page" />
+        tools:layout="@layout/fragment_favorites_page" >
+        <action
+            android:id="@+id/navigate_to_detail_page"
+            app:destination="@id/productDetailPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/orderPageFragment"
         android:name="com.example.foodorderapp.ui.fragment.OrderPageFragment"

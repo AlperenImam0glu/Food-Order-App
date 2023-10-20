@@ -44,11 +44,20 @@ class OrderPageFragment : Fragment() {
                         binding.emptyCartLayout.visibility = View.GONE
                         binding.buttonClearCart.visibility = View.VISIBLE
                         binding.cardViewOrder.visibility = View.VISIBLE
+                        binding.rv.visibility = View.VISIBLE
                     }
+
                     mainPageProductAdapter.productList= it.sepet_yemekler!!
                     val cartTotalPrice =viewModel.calculateCartTotalPrice(it.sepet_yemekler)
                     binding.textViewTotalPrice.text="$cartTotalPrice ₺"
                     mainPageProductAdapter.notifyDataSetChanged()
+                }
+
+                if(products == null){
+                    binding.emptyCartLayout.visibility = View.VISIBLE
+                    binding.buttonClearCart.visibility = View.INVISIBLE
+                    binding.cardViewOrder.visibility = View.INVISIBLE
+                    binding.rv.visibility = View.INVISIBLE
                 }
 
                 products?.let{

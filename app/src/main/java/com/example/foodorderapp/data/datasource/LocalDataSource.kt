@@ -1,6 +1,7 @@
 package com.example.foodorderapp.data.datasource
 
 import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
+import com.example.foodorderapp.data.model.product.Yemekler
 import com.example.foodorderapp.data.room.RoomDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,6 +11,23 @@ class LocalDataSource(var retrofitDAO: RoomDAO) {
 
     suspend fun getAllProductsInDB(): List<DataBaseProductModel> = withContext(Dispatchers.IO) {
         return@withContext retrofitDAO.getAllProduct()
+    }
+
+    suspend fun deleteProdcutInDB(product_id: Int) {
+        val product = DataBaseProductModel(product_id, "", "", "", "", 1)
+        retrofitDAO.deleteProdcutInDB(product)
+    }
+
+    suspend fun saveProdcutInDB(product: Yemekler) {
+        val product = DataBaseProductModel(
+            0,
+            product.yemek_adi ?: "",
+            product.yemek_resim_adi ?: "",
+            product.yemek_fiyat ?: "",
+            product.yemek_id ?: "",
+            product.yemek_siparis_adet
+        )
+        retrofitDAO.saveProdcutInDB(product)
     }
     /*
      suspend fun kaydet(kisi_ad: String, kisi_tel: String) {

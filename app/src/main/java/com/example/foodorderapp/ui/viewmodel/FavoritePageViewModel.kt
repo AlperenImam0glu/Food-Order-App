@@ -40,5 +40,18 @@ class FavoritePageViewModel @Inject constructor(
         }
     }
 
+    fun deleteProductInDB(prodcutID: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                productRepository.deleteProductInDB(prodcutID)
+                getProductInDB()
+            } catch (e: Exception) {
+                Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
+
+
 
 }

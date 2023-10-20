@@ -22,6 +22,10 @@ interface ProductRepository {
 
     suspend fun getAllProductInDB() : List<DataBaseProductModel>
 
+    suspend fun deleteProductInDB(product_id:Int)
+
+    suspend fun saveProdcutInDB(product:Yemekler)
+
     // suspend fun removeProductFromCart()
     //  suspend fun removeAllProductFromCart()
 }

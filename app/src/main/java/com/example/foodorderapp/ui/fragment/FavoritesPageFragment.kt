@@ -1,6 +1,7 @@
 package com.example.foodorderapp.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,9 @@ class FavoritesPageFragment : Fragment() {
             MarginItemDecoration(16)
         )
 
-        val mainPageProductAdapter = FavoritePageProductAdapter(emptyList(), viewModel)
+        binding.emptyListLayout.visibility = View.VISIBLE
+
+        val mainPageProductAdapter = FavoritePageProductAdapter(emptyList(), viewModel,requireContext())
         binding.rv.adapter = mainPageProductAdapter
 
         viewModel.cartListLiveData.observe(viewLifecycleOwner){
@@ -42,7 +45,13 @@ class FavoritesPageFragment : Fragment() {
                 mainPageProductAdapter.productList = it
                 mainPageProductAdapter.notifyDataSetChanged()
                 binding.rv.adapter = mainPageProductAdapter
+
+                if(it.size >0){
+                    binding.emptyListLayout.visibility = View.GONE
+                }
             }
+
+            Log.e("gelen veri türü","$it")
 
         }
 

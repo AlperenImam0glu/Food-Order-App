@@ -306,4 +306,14 @@ class MainPageViewModel @Inject constructor(
         return productList ?: ArrayList<Yemekler>()
     }
 
+    fun saveProductInDB(prodcut: Yemekler) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                productRepository.saveProdcutInDB(prodcut)
+            } catch (e: Exception) {
+                Log.e("veri tabanı hata", e.toString())
+            }
+        }
+    }
+
 }

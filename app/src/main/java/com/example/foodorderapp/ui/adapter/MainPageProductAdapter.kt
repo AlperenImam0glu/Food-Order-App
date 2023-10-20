@@ -66,8 +66,9 @@ class MainPageProductAdapter(
         binding.buttonAdd.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt() + 1
             binding.textViewCartCount.text = "$count"
-            binding.buttonSepeteEkle.text="Güncelle"
-            binding.buttonSepeteEkle.backgroundTintList = ColorStateList.valueOf(mContext.resources.getColor(R.color.custom_red))
+            binding.buttonSepeteEkle.text = "Güncelle"
+            binding.buttonSepeteEkle.backgroundTintList =
+                ColorStateList.valueOf(mContext.resources.getColor(R.color.custom_red))
 
         }
 
@@ -77,19 +78,22 @@ class MainPageProductAdapter(
             if (count != 0) {
                 food.yemek_siparis_adet = count
                 viewModel.addProductToCart(food)
-                binding.buttonSepeteEkle.text="Sepete Ekle"
+                binding.buttonSepeteEkle.text = "Sepete Ekle"
                 Toast.makeText(mContext, "Sepete Eklendi", Toast.LENGTH_SHORT).show()
-                binding.buttonSepeteEkle.backgroundTintList = ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
+                binding.buttonSepeteEkle.backgroundTintList =
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
 
             } else if (count == 0 && binding.buttonSepeteEkle.text == "Güncelle") {
                 viewModel.deleteOneProdutInCart(food)
                 binding.buttonSepeteEkle.text = "Ekle"
-                binding.buttonSepeteEkle.text="Sepete Ekle"
-                binding.buttonSepeteEkle.backgroundTintList = ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
+                binding.buttonSepeteEkle.text = "Sepete Ekle"
+                binding.buttonSepeteEkle.backgroundTintList =
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
 
                 Toast.makeText(mContext, "Sepetten Silindi", Toast.LENGTH_SHORT).show()
             } else {
-                binding.buttonSepeteEkle.backgroundTintList = ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
+                binding.buttonSepeteEkle.backgroundTintList =
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
                 Toast.makeText(mContext, "Miktar Seçiniz", Toast.LENGTH_SHORT).show()
             }
 
@@ -101,13 +105,14 @@ class MainPageProductAdapter(
             if (binding.textViewCartCount.text.toString().toInt() > 0) {
                 val count = binding.textViewCartCount.text.toString().toInt() - 1
                 binding.textViewCartCount.text = "$count"
-                binding.buttonSepeteEkle.text="Güncelle"
-                binding.buttonSepeteEkle.backgroundTintList = ColorStateList.valueOf(mContext.resources.getColor(R.color.custom_red))
+                binding.buttonSepeteEkle.text = "Güncelle"
+                binding.buttonSepeteEkle.backgroundTintList =
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.custom_red))
             } else {
                 Toast.makeText(mContext, "Miktar daha fazla azalamaz", Toast.LENGTH_SHORT).show()
             }
-
         }
+        
 
     }
 
