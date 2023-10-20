@@ -6,20 +6,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodorderapp.data.model.cart.Cart
-import com.example.foodorderapp.data.model.product.Yemekler
-import com.example.foodorderapp.databinding.CartPageProductItemBinding
+import com.example.foodorderapp.databinding.RvItemOrderPageBinding
 import com.example.foodorderapp.ui.viewmodel.OrderPageViewModel
 import com.example.foodorderapp.utils.loadImage
 
 class OrderPageProductAdapter(var productList: List<Cart>, val viewModel: OrderPageViewModel,val mContext: Context) :
     RecyclerView.Adapter<OrderPageProductAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: CartPageProductItemBinding) :
+    inner class ViewHolder(val binding: RvItemOrderPageBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            CartPageProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            RvItemOrderPageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

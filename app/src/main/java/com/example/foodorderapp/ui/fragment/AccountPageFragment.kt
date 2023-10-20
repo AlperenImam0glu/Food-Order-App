@@ -40,7 +40,7 @@ class AccountPageFragment : Fragment() {
             }
         }
 
-        binding.button2.setOnClickListener {
+        binding.buttonLogOut.setOnClickListener {
             viewModel.logOut()
             val action = AccountPageFragmentDirections.navigateToLogOut()
             Navigation.findNavController(it).navigate(action)

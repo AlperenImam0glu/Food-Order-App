@@ -1,19 +1,16 @@
 package com.example.foodorderapp.ui.adapter
 
-import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.res.ColorStateList
-import android.provider.CalendarContract.Colors
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.model.product.Yemekler
-import com.example.foodorderapp.databinding.MainpageProductItemBinding
+import com.example.foodorderapp.databinding.RvItemMainPageBinding
 import com.example.foodorderapp.ui.fragment.MainPageFragmentDirections
 import com.example.foodorderapp.ui.viewmodel.MainPageViewModel
 import com.example.foodorderapp.utils.loadImage
@@ -25,12 +22,12 @@ class MainPageProductAdapter(
 ) :
     RecyclerView.Adapter<MainPageProductAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: MainpageProductItemBinding) :
+    inner class ViewHolder(val binding: RvItemMainPageBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            MainpageProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            RvItemMainPageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -41,15 +38,7 @@ class MainPageProductAdapter(
         val checkCount = binding.textViewCartCount.text.toString().toInt()
         binding.textViewFoodName.text = food.yemek_adi
         binding.textViewFoodPrice.text = "${food.yemek_fiyat} ₺"
-
-
         food.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
-
-        /*  Log.e("güncelleme hata","${food.yemek_id},${food.yemek_adi}")
-          if (food.yemek_siparis_adet != 0) {
-              Log.e("güncelleme hata","Güncellendi ${food.yemek_id},${food.yemek_adi}")
-              binding.buttonSepeteEkle.text = "Güncelle"
-          }*/
 
         binding.textViewCartCount.text = food.yemek_siparis_adet.toString()
 
@@ -96,10 +85,7 @@ class MainPageProductAdapter(
                     ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
                 Toast.makeText(mContext, "Miktar Seçiniz", Toast.LENGTH_SHORT).show()
             }
-
-
         }
-
 
         binding.buttonNimus.setOnClickListener {
             if (binding.textViewCartCount.text.toString().toInt() > 0) {
@@ -112,7 +98,6 @@ class MainPageProductAdapter(
                 Toast.makeText(mContext, "Miktar daha fazla azalamaz", Toast.LENGTH_SHORT).show()
             }
         }
-        
 
     }
 
