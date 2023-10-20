@@ -50,12 +50,8 @@ class FavoritesPageFragment : Fragment() {
                     binding.emptyListLayout.visibility = View.GONE
                 }
             }
-
             Log.e("gelen veri türü","$it")
-
         }
-
-
 
         return binding.root
     }
