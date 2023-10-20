@@ -1,5 +1,8 @@
 package com.example.foodorderapp.di
 
+
+import android.content.Context
+import androidx.room.Room
 import com.example.foodorderapp.data.datasource.LocalDataSource
 import com.example.foodorderapp.data.datasource.RemoteDataSource
 import com.example.foodorderapp.data.repository.AuthRepository
@@ -8,11 +11,14 @@ import com.example.foodorderapp.data.repository.ProductRepository
 import com.example.foodorderapp.data.repository.ProductRepositoryImpl
 import com.example.foodorderapp.data.retrofit.ApiUtils
 import com.example.foodorderapp.data.retrofit.RetrofitDAO
+import com.example.foodorderapp.data.room.RoomDAO
+import com.example.foodorderapp.data.room.RoomDB
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -35,8 +41,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideLocalDataSource(retrofitDAO: RetrofitDAO): LocalDataSource {
-        return LocalDataSource(retrofitDAO)
+    fun provideLocalDataSource(roomDAO: RoomDAO): LocalDataSource {
+        return LocalDataSource(roomDAO)
     }
 
     @Singleton
@@ -54,5 +60,13 @@ class AppModule {
     @Singleton
     @Provides
     fun provideProductRepository(impl: ProductRepositoryImpl): ProductRepository = impl
+
+    @Provides
+    @Singleton
+    fun provideKisilerDataAccessObject(@ApplicationContext context: Context): RoomDAO {
+        val vt = Room.databaseBuilder(context, RoomDB::class.java, "product.sqlite")
+            .createFromAsset("product.sqlite").build()
+        return vt.getRoomDAO()
+    }
 
 }

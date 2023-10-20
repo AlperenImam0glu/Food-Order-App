@@ -4,7 +4,7 @@ import com.example.foodorderapp.data.datasource.LocalDataSource
 import com.example.foodorderapp.data.datasource.RemoteDataSource
 import com.example.foodorderapp.data.model.CRUDResponce
 import com.example.foodorderapp.data.model.cart.CartResponce
-import com.example.foodorderapp.data.model.product.FoodResponce
+import com.example.foodorderapp.data.model.databasemodel.DataBaseProductModel
 import com.example.foodorderapp.data.model.product.Yemekler
 import javax.inject.Inject
 
@@ -21,6 +21,9 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun deleteProductInCart(yemek_id: Int, userName: String): CRUDResponce =
         remoteDataSource.deleteProductInCart(yemek_id, userName)
+
+    override suspend fun getAllProductInDB(): List<DataBaseProductModel> =
+        localDataSource.getAllProductsInDB()
 
 
 }

@@ -115,7 +115,7 @@
                 android:insetLeft="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
-                android:text="Ekle"
+                android:text="Sepete Ekle"
                 app:cornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
