@@ -54,8 +54,6 @@ class FavoritesPageFragment : Fragment() {
                 }else{
                     binding.emptyListLayout.visibility = View.VISIBLE
                 }
-                Log.e("gelen veri türü", "liste ${favoritesList.size}")
-                Log.e("gelen veri türü", "it ${it.size}")
             }
 
         }

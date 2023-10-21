@@ -21,6 +21,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         style="@style/CustomBottomNavStyle"
+        android:windowSoftInputMode="adjustNothing"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/white"

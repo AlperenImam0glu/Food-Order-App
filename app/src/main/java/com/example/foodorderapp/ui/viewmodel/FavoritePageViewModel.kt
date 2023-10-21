@@ -25,8 +25,6 @@ class FavoritePageViewModel @Inject constructor(
 ) : ViewModel() {
 
     val cartListLiveData = MutableLiveData<List<DataBaseProductModel>?>()
-
-
     val currentUser: FirebaseUser?
         get() = repository.currentUser
     init {
@@ -39,6 +37,7 @@ class FavoritePageViewModel @Inject constructor(
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 cartListLiveData.value = productRepository.getAllProductInDB()
+                Log.e("veri tabanı hata", "${cartListLiveData.value}")
             } catch (e: Exception) {
                 Log.e("veri tabanı hata", e.toString())
             }

@@ -45,7 +45,7 @@ class MainPageProductAdapter(
         binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled)
         favoriteList?.let {
             for (i in favoriteList.indices) {
-                if (productList[position].yemek_id == favoriteList[i].yemek_id  && viewModel.currentUser?.uid ?: "" == favoriteList[i].kullanici_id) {
+                if (productList[position].yemek_id == favoriteList[i].yemek_id && viewModel.currentUser?.uid ?: "" == favoriteList[i].kullanici_id) {
                     binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red)
                 }
             }
@@ -54,6 +54,8 @@ class MainPageProductAdapter(
         var isFavorited = false
         var productDBuid = 0
         binding.imageViewFavorite.setOnClickListener {
+            Log.e("favori hatası","${product.yemek_adi}")
+
             favoriteList?.let {
                 for (i in favoriteList.indices) {
                     if (product.yemek_id == favoriteList[i].yemek_id) {
@@ -75,7 +77,6 @@ class MainPageProductAdapter(
             }
 
         }
-
 
         binding.cardView.setOnClickListener {
             product?.let { food ->
