@@ -57,7 +57,7 @@ class ProductDetailPageFragment : Fragment() {
         viewModel.databaseLiveData.observe(viewLifecycleOwner) {
             if (it != null) {
                 for (i in it) {
-                    if (product.yemek_id == i.yemek_id) {
+                    if (product.yemek_id == i.yemek_id && viewModel.currentUser?.uid ?: "" == i.kullanici_id) {
                         isFavorited = true
                         prodcutDbId = i.uid
                         binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red);

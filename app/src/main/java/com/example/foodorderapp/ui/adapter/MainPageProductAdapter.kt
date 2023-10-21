@@ -3,6 +3,7 @@ package com.example.foodorderapp.ui.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -44,7 +45,7 @@ class MainPageProductAdapter(
         binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled)
         favoriteList?.let {
             for (i in favoriteList.indices) {
-                if (productList[position].yemek_id == favoriteList[i].yemek_id) {
+                if (productList[position].yemek_id == favoriteList[i].yemek_id  && viewModel.currentUser?.uid ?: "" == favoriteList[i].kullanici_id) {
                     binding.imageViewFavorite.setBackgroundResource(R.drawable.ic_favorite_filled_red)
                 }
             }

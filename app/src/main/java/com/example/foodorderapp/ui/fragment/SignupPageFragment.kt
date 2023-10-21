@@ -1,6 +1,9 @@
 package com.example.foodorderapp.ui.fragment
 
+import android.animation.Animator
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,7 +36,7 @@ class SignupPageFragment : Fragment() {
         val tempViewModel: LoginPageViewModel by viewModels()
         viewModel = tempViewModel
 
-        Log.e("deneme","onCreateView çalıştı")
+        Log.e("deneme", "onCreateView çalıştı")
         collectFlow()
 
         binding.buttonLogin.setOnClickListener {
@@ -69,17 +72,47 @@ class SignupPageFragment : Fragment() {
                     }
 
                     Resource.Loading -> {
-                        Toast.makeText(requireContext(), "Bekleniyor", Toast.LENGTH_SHORT).show()
+                        lottieOrder()
                     }
 
                     is Resource.Success -> {
-                        Toast.makeText(requireContext(), "Başarılı", Toast.LENGTH_SHORT).show()
                         findNavController(binding.buttonLogin).popBackStack()
                     }
+
                     else -> {}
                 }
             }
         }
+    }
+
+    fun lottieOrder() {
+        val lottie = binding.lottieLoginAnimation
+
+        lottie.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                lottie.visibility = View.VISIBLE
+                lottie.playAnimation()
+            }, 0
+        )
+
+        lottie.playAnimation()
+        lottie.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator) {
+
+            }
+
+            override fun onAnimationEnd(p0: Animator) {
+                lottie.visibility = View.GONE
+            }
+
+            override fun onAnimationCancel(p0: Animator) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator) {
+            }
+
+        })
     }
 
 }

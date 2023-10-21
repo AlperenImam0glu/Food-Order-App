@@ -49,7 +49,7 @@ class FavoritesPageFragment : Fragment() {
                 }
                 mainPageProductAdapter.productList = favoritesList
                 binding.rv.adapter = mainPageProductAdapter
-                if (it.size > 0) {
+                if (favoritesList.size > 0) {
                     binding.emptyListLayout.visibility = View.GONE
                 }else{
                     binding.emptyListLayout.visibility = View.VISIBLE

@@ -1,7 +1,10 @@
 package com.example.foodorderapp.ui.fragment
 
 import android.R
+import android.animation.Animator
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -71,10 +74,10 @@ class LoginPageFragment : Fragment() {
                 try{
                     when (it) {
                         is Resource.Failure -> {
-                            Toast.makeText(requireContext(), "Başarısız", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Yanlış Kullanıcı adı veya Şifre", Toast.LENGTH_SHORT).show()
                         }
                         Resource.Loading -> {
-                            Toast.makeText(requireContext(), "Bekleniyor", Toast.LENGTH_SHORT).show()
+                            lottieOrder()
                         }
                         is Resource.Success -> {
                             val action = LoginPageFragmentDirections.navigateToMainPageFragment()
@@ -107,6 +110,36 @@ class LoginPageFragment : Fragment() {
         super.onPause()
         val tempViewModel: LoginPageViewModel by viewModels()
         viewModel = tempViewModel
+    }
+
+
+    fun lottieOrder() {
+        val lottie = binding.lottieLoginAnimation
+
+        lottie.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                lottie.visibility = View.VISIBLE
+                lottie.playAnimation()
+            }, 0
+        )
+
+        lottie.playAnimation()
+        lottie.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator) {
+
+            }
+            override fun onAnimationEnd(p0: Animator) {
+                lottie.visibility = View.GONE
+            }
+
+            override fun onAnimationCancel(p0: Animator) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator) {
+            }
+
+        })
     }
 
 
