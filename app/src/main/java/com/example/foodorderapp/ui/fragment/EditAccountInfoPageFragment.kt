@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,23 +28,21 @@ class EditAccountInfoPageFragment : Fragment() {
         val tempViewModel: EditAccountInfoPageViewModel by viewModels()
         viewModel = tempViewModel
 
-
         val bundle: EditAccountInfoPageFragmentArgs by navArgs()
         val location = bundle.location
 
         binding.editText.setText(location)
-
         binding.buttonLogOut.setOnClickListener {
             try{
                 val newLocation = binding.editText.text.toString()
                 viewModel.changeLocationInFirabase(newLocation.trim())
+                Toast.makeText(requireContext(),"Güncelleme Başarılı",Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
             }catch (e:Exception){
-
+                Toast.makeText(requireContext(),"Güncelleme Başarısız",Toast.LENGTH_SHORT).show()
             }
         }
         return binding.root
     }
-
 
 }

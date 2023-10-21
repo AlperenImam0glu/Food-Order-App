@@ -15,7 +15,6 @@ import com.example.foodorderapp.ui.viewmodel.MainPageViewModel
 import com.example.foodorderapp.utils.MarginItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class MainPageFragment : Fragment() {
@@ -70,6 +69,24 @@ class MainPageFragment : Fragment() {
                 }
             }
         }
+
+        binding.searchView.setOnQueryTextListener(object :
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                if (newText != null) {
+                    searchProduct(newText,mainPageProductAdapter)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                if (query != null) {
+                    searchProduct(query,mainPageProductAdapter)
+                }
+                return false
+            }
+        })
+
         return binding.root
     }
 
@@ -87,6 +104,12 @@ class MainPageFragment : Fragment() {
         viewModel.getAllProduct()
         viewModel.getProductsInCart()
         viewModel.getProductInDB()
+    }
+
+    fun searchProduct(searchString: String,mainPageProductAdapter: MainPageProductAdapter) {
+        val k = viewModel.searchProduct(searchString)
+        mainPageProductAdapter.productList = k!!
+        mainPageProductAdapter.notifyDataSetChanged()
     }
 
 

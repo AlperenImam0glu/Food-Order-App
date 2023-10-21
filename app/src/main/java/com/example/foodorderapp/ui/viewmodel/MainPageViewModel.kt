@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,6 +42,7 @@ class MainPageViewModel @Inject constructor(
     val privateCartListFlow = MutableStateFlow<CartResponce?>(null)
     val progressFlow = MutableLiveData<Boolean>(false)
     val favoritesDataFlow = MutableStateFlow<List<DataBaseProductModel>?>(null)
+    val copyProductListFlow = MutableStateFlow<List<Yemekler>?>(null)
 
     val combineFlow = combine(
         cartListFlow,
@@ -332,6 +334,8 @@ class MainPageViewModel @Inject constructor(
         } catch (e: Exception) {
 
         }
+        Log.e("filtre", "copy güncellendi ${copyProductListFlow.value}")
+        copyProductListFlow.value = productList
         return productList ?: ArrayList<Yemekler>()
     }
 
@@ -389,6 +393,20 @@ class MainPageViewModel @Inject constructor(
                     Log.e("veri tabanı hata", e.toString())
                 }
             }
+        }
+    }
+
+    fun searchProduct(searchText: String) : List<Yemekler>? {
+        val queryLisy = copyProductListFlow.value
+        var searchTextLoweCase = searchText.lowercase()
+        if (queryLisy != null) {
+            Log.e("filtre", "arama listesi ${copyProductListFlow.value}")
+            return queryLisy.filter {
+                it.yemek_adi!!.lowercase(Locale.getDefault()).startsWith(searchTextLoweCase)
+            }
+            Log.e("filtre", "arama sonucu ${productListFlow.value}")
+        } else {
+           return null
         }
     }
 
