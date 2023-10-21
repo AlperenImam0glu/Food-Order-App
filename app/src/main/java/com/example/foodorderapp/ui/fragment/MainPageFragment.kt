@@ -73,20 +73,14 @@ class MainPageFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object :
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {
-                if (newText != null) {
-                    searchProduct(newText,mainPageProductAdapter)
-                }
+                if (newText != null) { searchProduct(newText,mainPageProductAdapter) }
                 return false
             }
-
             override fun onQueryTextChange(query: String?): Boolean {
-                if (query != null) {
-                    searchProduct(query,mainPageProductAdapter)
-                }
+                if (query != null) { searchProduct(query,mainPageProductAdapter) }
                 return false
             }
         })
-
         return binding.root
     }
 
@@ -110,6 +104,8 @@ class MainPageFragment : Fragment() {
         val k = viewModel.searchProduct(searchString)
         mainPageProductAdapter.productList = k!!
         mainPageProductAdapter.notifyDataSetChanged()
+        Log.e("Search","Çalıltı")
+        viewModel.getProductInDB()
     }
 
 

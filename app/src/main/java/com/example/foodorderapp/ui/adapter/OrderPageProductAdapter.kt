@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodorderapp.data.model.cart.Cart
@@ -48,9 +49,25 @@ class OrderPageProductAdapter(
         }
 
         binding.buttonNimus.setOnClickListener {
-            if (binding.textViewCartCount.text.toString().toInt() > 0) {
-                val count = binding.textViewCartCount.text.toString().toInt() - 1
-                binding.textViewCartCount.text = "$count"
+
+            if(binding.textViewCartCount.text.toString()=="1"){
+                val builder = AlertDialog.Builder(mContext)
+                builder.setTitle("Ürün sepetten silinecektir")
+                builder.setMessage("Onaylıyor musunuz ?")
+                builder.setPositiveButton("Evet") { dialog, which ->
+                    viewModel.deleteProductInCart(product.sepet_yemek_id)
+                    Toast.makeText(mContext, "Ürün silindi", Toast.LENGTH_SHORT).show()
+                    notifyDataSetChanged()
+                }
+                builder.setNegativeButton("Hayır") { dialog, which ->
+
+                }
+                builder.show()
+            }else{
+                if (binding.textViewCartCount.text.toString().toInt() > 0) {
+                    val count = binding.textViewCartCount.text.toString().toInt() - 1
+                    binding.textViewCartCount.text = "$count"
+                }
             }
         }
 
