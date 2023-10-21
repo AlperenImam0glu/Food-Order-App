@@ -72,7 +72,7 @@
             <TextView
                 android:id="@+id/textViewUserNameTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:fontFamily="@font/latinka_bold"
                 android:paddingHorizontal="8dp"
@@ -89,7 +89,7 @@
             <TextView
                 android:id="@+id/textViewUserName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/image_background1"
                 android:fontFamily="@font/latinka_bold"
                 android:paddingHorizontal="8dp"
@@ -118,44 +118,49 @@
         app:layout_constraintTop_toBottomOf="@+id/cardViewUserLocation"
         app:layout_constraintVertical_bias="0.5">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textViewUserUserLocationTitle"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:fontFamily="@font/latinka_bold"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:text="Lokasyon"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textViewUserLocation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/image_background1"
-                android:fontFamily="@font/latinka_bold"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:text="TextView"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/textViewUserMail"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewFood" />
+                <TextView
+                    android:id="@+id/textViewUserUserLocationTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:fontFamily="@font/latinka_bold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="Lokasyon"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageviewEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_edit"
+                    android:elevation="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textViewUserLocation"></ImageView>
+                <TextView
+                    android:id="@+id/textViewUserLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/image_background1"
+                    android:fontFamily="@font/latinka_bold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="TextView"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewUserUserLocationTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -179,9 +184,8 @@
             <TextView
                 android:id="@+id/extViewUserUserMailTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-
                 android:fontFamily="@font/latinka_bold"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
@@ -196,7 +200,7 @@
             <TextView
                 android:id="@+id/textViewUserMail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/image_background1"
                 android:fontFamily="@font/latinka_bold"
                 android:paddingHorizontal="8dp"

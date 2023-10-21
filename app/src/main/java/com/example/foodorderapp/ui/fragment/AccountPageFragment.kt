@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.example.foodorderapp.R
 import com.example.foodorderapp.databinding.FragmentAccountPageBinding
-import com.example.foodorderapp.databinding.FragmentProductDetailPageBinding
 import com.example.foodorderapp.ui.viewmodel.AccountPageViewModel
-import com.example.foodorderapp.ui.viewmodel.ProductDetailPageViewModel
+import com.example.foodorderapp.utils.safeNav
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -40,14 +38,31 @@ class AccountPageFragment : Fragment() {
             }
         }
 
+        binding.textViewUserLocation.setOnClickListener {
+            val action =
+                AccountPageFragmentDirections.accountToEditPage(binding.textViewUserLocation.text.toString())
+            Navigation.safeNav(it, action)
+        }
+
+        binding.imageviewEdit.setOnClickListener {
+            val action =
+                AccountPageFragmentDirections.accountToEditPage(binding.textViewUserLocation.text.toString())
+            Navigation.safeNav(it, action)
+        }
+
         binding.buttonLogOut.setOnClickListener {
             viewModel.logOut()
             val action = AccountPageFragmentDirections.navigateToLogOut()
             Navigation.findNavController(it).navigate(action)
         }
 
+
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getData()
+    }
 
 }

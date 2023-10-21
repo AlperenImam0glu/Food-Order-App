@@ -76,5 +76,17 @@
             app:destination="@id/loginPageFragment"
             app:popUpTo="@id/main_activity_nav"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/account_to_editPage"
+            app:destination="@id/editAccountInfoPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAccountInfoPageFragment"
+        android:name="com.example.foodorderapp.ui.fragment.EditAccountInfoPageFragment"
+        android:label="fragment_edit_account_info_page"
+        tools:layout="@layout/fragment_edit_account_info_page" >
+        <argument
+            android:name="location"
+            app:argType="string" />
     </fragment>
 </navigation>

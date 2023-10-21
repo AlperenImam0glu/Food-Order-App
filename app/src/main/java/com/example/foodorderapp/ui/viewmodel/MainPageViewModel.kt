@@ -92,7 +92,6 @@ class MainPageViewModel @Inject constructor(
     fun deleteOneProductInCartWithId(yemek_sepet_id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-
                 currentUser?.let {
                     val responce = productRepository.deleteProductInCart(yemek_sepet_id, it.uid)
                     Log.e("viewmodel sepet veri ekleme durumu", "başarı kodu ${responce.success}")
@@ -110,10 +109,7 @@ class MainPageViewModel @Inject constructor(
             try {
                 val responce = productRepository.getAllProducts()
                 productListFlow.value = responce
-                Log.e(
-                    "viewmodel ürün verisi alma",
-                    "ürün verisi alma veri adedi : ${responce.size}"
-                )
+
             } catch (e: Exception) {
                 Log.e("viewmodel ürün verisi alma hata", "ürün verisi alma hata : ${e.message}")
             }

@@ -14,14 +14,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AccountPageViewModel @Inject constructor(
+class EditAccountInfoPageViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
     val userInfoFlow = MutableStateFlow<User?>(null)
     val db = FirebaseFirestore.getInstance()
     val currentUser: FirebaseUser?
         get() = repository.currentUser
-
     init {
         getData()
     }
@@ -51,22 +50,19 @@ class AccountPageViewModel @Inject constructor(
     }
 
     fun changeLocationInFirabase(newLocation: String) {
-
         val docRef = db.collection("users").document(currentUser!!.uid)
         val map = HashMap<String, Any>().apply {
             put("name", userInfoFlow.value!!.name!!)
-            put("location", "Silivri")
+            put("location", newLocation)
             put("email", userInfoFlow.value!!.email!!)
         }
         docRef.update(map)
-
             .addOnSuccessListener {
                 Log.d("Güncelleme Başarılı", "Belge başarıyla güncellendi.")
             }
             .addOnFailureListener { exception ->
                 Log.w("Güncelleme Hatası", "Belge güncellenemedi", exception)
             }
-
 
     }
 
