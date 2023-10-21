@@ -2,6 +2,7 @@ package com.example.foodorderapp.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -41,16 +42,18 @@ class OrderPageProductAdapter(
         product.yemek_resim_adi?.let { binding.imageViewFood.loadImage(it) }
         binding.textViewCartCount.text = product.yemek_siparis_adet.toString()
 
-        val currentCount = product.yemek_siparis_adet
-
         binding.buttonAdd.setOnClickListener {
             val count = binding.textViewCartCount.text.toString().toInt() + 1
             binding.textViewCartCount.text = "$count"
+            binding.textViewUpdate.visibility = View.VISIBLE
+            if (count == product.yemek_siparis_adet) {
+                binding.textViewUpdate.visibility = View.INVISIBLE
+            }
         }
 
         binding.buttonNimus.setOnClickListener {
 
-            if(binding.textViewCartCount.text.toString()=="1"){
+            if (binding.textViewCartCount.text.toString() == "1") {
                 val builder = AlertDialog.Builder(mContext)
                 builder.setTitle("Ürün sepetten silinecektir")
                 builder.setMessage("Onaylıyor musunuz ?")
@@ -60,16 +63,33 @@ class OrderPageProductAdapter(
                     notifyDataSetChanged()
                 }
                 builder.setNegativeButton("Hayır") { dialog, which ->
-
+                    binding.textViewCartCount.text = product.yemek_siparis_adet.toString()
+                    binding.textViewUpdate.visibility = View.INVISIBLE
                 }
                 builder.show()
-            }else{
+            } else {
                 if (binding.textViewCartCount.text.toString().toInt() > 0) {
                     val count = binding.textViewCartCount.text.toString().toInt() - 1
                     binding.textViewCartCount.text = "$count"
+                    binding.textViewUpdate.visibility = View.VISIBLE
+
+                    if (count == product.yemek_siparis_adet) {
+                        binding.textViewUpdate.visibility = View.INVISIBLE
+                    }
+
                 }
             }
         }
+
+        binding.textViewUpdate.setOnClickListener {
+            product.yemek_siparis_adet = binding.textViewCartCount.text.toString().toInt()
+            viewModel.addProductToCart(cartToYemeklerObject(product))
+            Toast.makeText(mContext, "Ürün adet güncellendi", Toast.LENGTH_SHORT).show()
+            binding.textViewUpdate.visibility = View.INVISIBLE
+            viewModel.getProductInCart()
+        }
+
+
 
         binding.imageViewDelete.setOnClickListener {
             viewModel.deleteProductInCart(product.sepet_yemek_id)
@@ -88,6 +108,7 @@ class OrderPageProductAdapter(
     override fun getItemCount(): Int {
         return productList.size
     }
+
 
     fun cartToYemeklerObject(data: Cart): Yemekler {
         val product = Yemekler(

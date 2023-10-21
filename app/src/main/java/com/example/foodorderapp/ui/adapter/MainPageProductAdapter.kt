@@ -111,19 +111,19 @@ class MainPageProductAdapter(
                 binding.buttonSepeteEkle.text = "Sepete Ekle"
                 Toast.makeText(mContext, "Sepete Eklendi", Toast.LENGTH_SHORT).show()
                 binding.buttonSepeteEkle.backgroundTintList =
-                    ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.primary_purple))
 
             } else if (count == 0 && binding.buttonSepeteEkle.text == "Güncelle") {
                 viewModel.deleteOneProdutInCart(product)
                 binding.buttonSepeteEkle.text = "Ekle"
                 binding.buttonSepeteEkle.text = "Sepete Ekle"
                 binding.buttonSepeteEkle.backgroundTintList =
-                    ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.primary_purple))
 
                 Toast.makeText(mContext, "Sepetten Silindi", Toast.LENGTH_SHORT).show()
             } else {
                 binding.buttonSepeteEkle.backgroundTintList =
-                    ColorStateList.valueOf(mContext.resources.getColor(R.color.button_color))
+                    ColorStateList.valueOf(mContext.resources.getColor(R.color.primary_purple))
                 Toast.makeText(mContext, "Miktar Seçiniz", Toast.LENGTH_SHORT).show()
             }
         }

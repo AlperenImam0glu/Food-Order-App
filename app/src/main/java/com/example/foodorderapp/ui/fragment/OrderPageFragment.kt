@@ -46,6 +46,8 @@ class OrderPageFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             viewModel.cartListFlow.collectLatest { products ->
+
+                Log.e("cartList","güncellendi")
                 products?.let {
                     if (it.sepet_yemekler.size != 0) {
                         binding.emptyCartLayout.visibility = View.GONE
@@ -75,6 +77,8 @@ class OrderPageFragment : Fragment() {
 
             }
         }
+
+
         binding.rv.adapter = mainPageProductAdapter
 
         binding.buttonClearCart.setOnClickListener {
@@ -115,7 +119,6 @@ class OrderPageFragment : Fragment() {
                 binding.lottieClearCartAnimation.visibility = View.GONE
                 animationVisibility = false
                 binding.emptyCartLayout.visibility = View.VISIBLE
-
             }
 
             override fun onAnimationCancel(p0: Animator) {
@@ -125,9 +128,7 @@ class OrderPageFragment : Fragment() {
             }
 
         })
-
     }
-
 
     fun lottieOrder() {
         val lottie = binding.lottieOrderAnimation

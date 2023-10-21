@@ -90,7 +90,7 @@ class ProductDetailPageFragment : Fragment() {
                 binding.buttonAddToCart.text = "Sepete Ekle"
                 binding.buttonAddToCart.backgroundTintList = ColorStateList.valueOf(
                     requireContext().resources.getColor(
-                        R.color.button_color
+                        R.color.primary_purple
                     )
                 )
                 Toast.makeText(requireContext(), "Sepete Eklendi", Toast.LENGTH_SHORT).show()
@@ -99,7 +99,7 @@ class ProductDetailPageFragment : Fragment() {
                 binding.buttonAddToCart.text = "Sepete Ekle"
                 binding.buttonAddToCart.backgroundTintList = ColorStateList.valueOf(
                     requireContext().resources.getColor(
-                        R.color.button_color
+                        R.color.primary_purple
                     )
                 )
                 Toast.makeText(requireContext(), "Ürün sepetten silindi", Toast.LENGTH_SHORT).show()
